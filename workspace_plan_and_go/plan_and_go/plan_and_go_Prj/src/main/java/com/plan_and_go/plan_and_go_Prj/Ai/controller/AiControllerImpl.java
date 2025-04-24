@@ -1,0 +1,71 @@
+package com.plan_and_go.plan_and_go_Prj.Ai.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
+
+
+
+@Controller("aiController")
+public class AiControllerImpl implements AiController {
+
+
+    // ✅ 2. 사용자 검색 기반 추천 결과 (POST)
+    @Override
+    @RequestMapping(value = "/Ai/test2.do", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView fetchData2(@RequestParam(value = "query", required = false) String query) {
+
+        String flaskUrl = "http://ParkHuiWoong.pythonanywhere.com/api/recommend";
+        ModelAndView mav = new ModelAndView("/Ai/data_view");
+
+        // 기본 검색어 지정
+        if (query == null || query.trim().isEmpty()) {
+            query = "조식 수영장 바다";
+        }
+
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+
+            // JSON Body 구성
+            Map<String, String> requestBody = new HashMap<>();
+            requestBody.put("query", query);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+            // Flask POST 요청
+            Map<String, Object> response = restTemplate.postForObject(flaskUrl, requestEntity, Map.class);
+
+            // 결과 추출
+            List<Map<String, Object>> resultList = (List<Map<String, Object>>) response.get("result");
+
+            mav.addObject("dataList", resultList);
+            mav.addObject("query", query);
+
+            // 로그 출력
+            System.out.println("✔ Flask 추천 응답 결과:");
+            for (Map<String, Object> hotel : resultList) {
+                System.out.println(" - " + hotel.get("hotel"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("error", "Flask 추천 요청 실패");
+        }
+
+        return mav;
+    }
+
+}

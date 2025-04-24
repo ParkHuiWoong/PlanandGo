@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.place">
+	<resultMap id="placeResult" type="placeVO">
+		<result property="id" column="place_id" />
+        <result property="name" column="place_name" />
+        <result property="category" column="category" />
+        <result property="info" column="place_info" />
+        <result property="region" column="region" />
+        <result property="address" column="address" />
+        <result property="image" column="place_image" />
+	</resultMap> 
+
+	<select id="selectPlaceList" resultMap="placeResult">
+      <![CDATA[
+         select * from place where place_id = #{id}
+      ]]>
+	</select>
+   
+</mapper>

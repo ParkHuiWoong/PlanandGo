@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.planner">
+	<resultMap id="activityResult" type="activityVO">
+		<result property="ACTIVITY_ID" column="ACTIVITY_ID" />
+		<result property="ACTIVITY_NAME" column="ACTIVITY_NAME" />
+		<result property="ACTIVITY_TIME" column="ACTIVITY_TIME" />
+		<result property="EXPECTED_COST" column="EXPECTED_COST" />
+		<result property="ACTIVITY_DATE" column="ACTIVITY_DATE" />
+		<result property="SCHEDULE_ID" column="SCHEDULE_ID" />
+		<result property="PLACE_ID" column="PLACE_ID" />
+		<result property="ACTUAL_COST" column="ACTUAL_COST" />
+		<result property="PLACE_NAME" column="PLACE_NAME" />
+		<result property="COMMENT" column="COMMENT" />
+	</resultMap>
+	<resultMap id="scheduleResult" type="scheduleVO">
+		<result property="schedule_id" column="schedule_id" />
+		<result property="schedule_name" column="schedule_name" />
+		<result property="start_date" column="start_date" />
+		<result property="end_date" column="end_date" />
+		<result property="created_date" column="created_date" />
+		<result property="updated_date" column="updated_date" />
+		<result property="group_id" column="group_id" />
+		<result property="region_name" column="region_name" />
+	</resultMap>
+	<resultMap id="placeResult" type="placeVO">
+		<result property="id" column="place_id" />
+		<result property="name" column="place_name" />
+		<result property="category" column="category" />
+		<result property="info" column="place_info" />
+		<result property="REGION_NAME" column="REGION_NAME" />
+		<result property="image" column="place_image" />
+	</resultMap>
+	<resultMap id="groupTBResult" type="groupTBVO">
+		<result property="group_id" column="group_id" />
+		<result property="group_name" column="group_name" />
+	</resultMap>
+	<resultMap id="groupJoinResult" type="groupJoinVO">
+		<result property="member_id" column="member_id" />
+		<result property="group_id" column="group_id" />
+	</resultMap>
+	<resultMap id="regionResult" type="regionVO">
+		<result property="id" column="region_id" />
+		<result property="name" column="region_name" />
+		<result property="info" column="region_info" />
+		<result property="image" column="region_image" />
+	</resultMap>
+	<select id="selectRegionList" resultMap="regionResult">
+      <![CDATA[
+         select REGION_NAMEfrom REGION;
+      ]]>
+	</select>
+
+	<select id="selectPlaceList" resultMap="placeResult">
+      <![CDATA[
+        SELECT 
+            p.PLACE_ID AS place_id,
+            p.PLACE_NAME AS place_name,
+            p.CATEGORY AS category,
+            p.PLACE_INFO AS place_info,
+            r.REGION_NAME AS region_name,
+            p.PLACE_IMAGE AS place_image
+        FROM 
+            PLACE p
+        JOIN 
+            REGION r
+        ON 
+            p.REGION_ID= r.REGION_ID
+        WHERE 
+            r.REGION_NAME = #{region}
+    ]]>
+	</select>
+
+	<select id="selectScheduleID" resultType="Integer">
+      <![CDATA[
+        SELECT max(SCHEDULE_ID) FROM SCHEDULE
+    ]]>
+	</select>
+
+	<insert id="insertSchedule" parameterType="scheduleVO">
+		<![CDATA[
+		 insert into SCHEDULE(SCHEDULE_NAME, REGION_NAME, START_DATE, END_DATE, CREATED_DATE, UPDATED_DATE, GROUP_ID)
+		 values(#{schedule_name}, #{region_name}, #{start_date}, #{end_date}, now(), now(), #{group_id})
+		]]>
+	</insert>
+
+	<insert id="insertActivity" parameterType="activityVO">
+		<![CDATA[
+		 insert into ACTIVITY (activity_name, activity_time, expected_cost, activity_date, schedule_id, actual_cost, PLACE_ID, comment)
+		  values (#{ACTIVITY_NAME}, #{ACTIVITY_TIME}, #{EXPECTED_COST}, #{ACTIVITY_DATE}, #{SCHEDULE_ID}, #{ACTUAL_COST}, (select min(place_id) from PLACE where place_name = #{PLACE_NAME}), #{COMMENT});
+		]]>
+	</insert>
+
+	<select id="selectActivity" resultMap="activityResult">
+      <![CDATA[
+        SELECT 
+        	A.ACTIVITY_ID, A.ACTIVITY_NAME, A.ACTIVITY_TIME, A.EXPECTED_COST, A.ACTIVITY_DATE, P.PLACE_NAME, A.ACTUAL_COST, A.COMMENT
+		FROM ACTIVITY AS A
+		JOIN PLACE AS P
+		ON A.PLACE_ID = P.PLACE_ID
+		WHERE A.SCHEDULE_ID = #{SCHEDULE_ID}
+		order by A.ACTIVITY_DATE, A.ACTIVITY_TIME
+    ]]>
+	</select>
+
+	<delete id="deleteActivity" parameterType="Integer">
+      <![CDATA[
+       	DELETE FROM ACTIVITY WHERE ACTIVITY_ID = #{ACTIVITY_ID}
+    ]]>
+	</delete>
+
+	<select id="selectActivityUpdate" resultMap="scheduleResult">
+      <![CDATA[
+        SELECT
+			START_DATE, END_DATE, GROUP_ID, REGION_NAME
+		FROM SCHEDULE
+		WHERE SCHEDULE_ID = #{schedule_id}
+    ]]>
+	</select>
+	
+	<update id="updateActivity" parameterType="activityVO">
+      <![CDATA[
+        UPDATE ACTIVITY 
+        SET
+        ACTIVITY_NAME = #{ACTIVITY_NAME}, 
+        ACTIVITY_TIME = #{ACTIVITY_TIME}, 
+        EXPECTED_COST = #{EXPECTED_COST},
+        ACTUAL_COST = #{ACTUAL_COST},
+        ACTIVITY_DATE = #{ACTIVITY_DATE}, 
+        PLACE_ID = (SELECT MIN(PLACE_ID) FROM PLACE WHERE PLACE_NAME = #{PLACE_NAME}),
+        COMMENT = #{COMMENT}
+        WHERE ACTIVITY_ID = #{ACTIVITY_ID};
+    ]]>
+	</update>
+
+</mapper>

@@ -1,0 +1,222 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="loggedInUser" value="${sessionScope.member}" />
+
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<!-- 로그인한 사용자 정보 확인 -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Plan&Go - Main</title>
+<link rel="stylesheet" type="text/css"
+	href="${contextPath}/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    console.log("로그인한 사용자 ID:" + `${loggedInUser.MEMBER_ID}`);
+</script>
+</head>
+<body id="main"
+	style="background: url('${contextPath}/resources/image/background.png') no-repeat center center fixed; background-size: cover;">
+
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<a class="navbar-brand" href="${contextPath}/board/main.do"> <img
+			src="${contextPath}/resources/image/plan_and_go_logo.jpg"
+			alt="Plan&Go 로고" class="logo">
+		</a> <span class="navbar-text">Plan&Go</span>
+		<div class="ml-auto">
+			<c:choose>
+				<c:when test="${empty loggedInUser}">
+					<!-- 로그인하지 않은 경우 -->
+					<a class="btn btn-outline-primary"
+						href="${contextPath}/member/loginForm.do">로그인</a>
+					<a class="btn btn-outline-secondary"
+						href="${contextPath}/review/list.do">리뷰게시판</a>
+					<a class="btn btn-outline-success"
+						href="${contextPath}/member/loginForm.do">마이페이지</a>
+				</c:when>
+				<c:otherwise>
+					<!-- 로그인한 경우 -->
+					<a class="btn btn-outline-primary"
+						href="${contextPath}/member/logout.do">로그아웃</a>
+					<!-- 로그아웃 링크 -->
+					<a class="btn btn-outline-secondary"
+						href="${contextPath}/review/list.do">리뷰 게시판</a>
+
+					<a class="btn btn-outline-success" href="#"
+						onclick="postToMyPage(); return false;">마이페이지</a>
+					<!-- myPage POST 요청으로 수정 -->
+					<form id="mainMyPage" action="${contextPath}/board/myPage.do"
+						method="POST">
+						<input type="hidden" name="MEMBER_ID"
+							value="${loggedInUser.MEMBER_ID}">
+					</form>
+
+
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</nav>
+
+	<!-- 메인 컨텐츠 -->
+	<div class="content-wrapper">
+		<div class="content">
+			<!-- 왼쪽 섹션 -->
+			<div class="top-left">
+				<h2>내 계획 만들기</h2>
+				<button class="btn btn-primary" onclick="toggleList()">여행지
+					리스트 열기</button>
+				<div id="planContainer" style="display: none; margin-top: 20px;">
+					<!-- 검색 입력 필드 -->
+					<input type="text" id="searchInput" class="form-control"
+						placeholder="검색어 입력..." onkeyup="filterList()">
+
+					<ul class="list-group mt-3" id="planList">
+						<c:forEach var="region" items="${boardsList}">
+							<li class="list-group-item region-item"
+								onclick="openPlanModal('${region.name}', '${region.image}', '${region.info}')">
+								${region.name}</li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
+
+
+			<div class="top-right">
+				<h2>키워드로 숙소 찾아보세요</h2>
+				<form id="ai_keyword" action="${contextPath}/ai/test2.do" method="POST">
+					<input type="hidden" name="MEMBER_ID" value="${loggedInUser.MEMBER_ID}">
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 갤러리 섹션 -->
+	<section class="gallery-section">
+		<div class="content">
+			<c:forEach var="region" items="${boardsList}">
+				<div class="card"
+					onclick="openPlanModal('${region.name}', '${region.image}', '${region.info}')">
+					<img
+						src="${contextPath}/resources/plan_and_go_image/region_image/${region.image}"
+						alt="${region.name}">
+					<div class="card-text">${region.name}</div>
+				</div>
+			</c:forEach>
+		</div>
+	</section>
+
+	<!-- 모달 -->
+	<div class="modal fade" id="planModal" tabindex="-1" role="dialog"
+		aria-labelledby="planModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h5 id="planModalLabel"></h5>
+					<img id="modalImage" src="" alt="이미지"
+						style="width: 100%; margin: 20px 0; border-radius: 5px;">
+					<p id="planModalDescription">모달 내용</p>
+					<!-- href 속성은 JavaScript에서 동적으로 설정 -->
+					<a id="createPlaceButton" href="#" class="btn btn-primary">일정
+						만들기</a>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const loggedInUser = ${loggedInUser != null ? 'true' : 'false'};
+
+		function toggleList() {
+		    const planContainer = document.getElementById('planContainer');
+
+		    if (planContainer.classList.contains('show')) {
+		        // 닫기 애니메이션 적용
+		        planContainer.style.maxHeight = '0px';
+		        planContainer.style.opacity = '0';
+		        setTimeout(() => {
+		            planContainer.style.display = 'none';
+		            planContainer.classList.remove('show');
+		        }, 500); // CSS 애니메이션 지속 시간과 맞춤
+		    } else {
+		        // 표시 전 먼저 block 설정
+		        planContainer.style.display = 'block';
+		        
+		        setTimeout(() => {
+		            planContainer.classList.add('show');
+		            planContainer.style.maxHeight = '400px';
+		            planContainer.style.opacity = '1';
+		        }, 10); // 작은 지연을 줘야 애니메이션 적용
+		    }
+		}
+
+		
+		/* function toggleList() {
+			
+		    const planContainer = document.getElementById('planContainer');
+		    console.log(planContainer);
+		    planContainer.style.display = planContainer.style.display === 'none' ? 'block' : 'none';
+		} */
+		
+		function openPlanModal(name, image, info) {
+			let imagePath = image.startsWith("http") ? image : `${contextPath}/resources/plan_and_go_image/region_image/` + image;
+			document.getElementById('planModalLabel').innerText = name;
+			document.getElementById('modalImage').src = imagePath;
+			document.getElementById('planModalDescription').innerText = info;
+
+			const createPlaceButton = document.getElementById('createPlaceButton');
+		    createPlaceButton.onclick = () => {
+		        if (loggedInUser) {
+		            // 로그인한 상태면 일정 생성 페이지로 이동
+		            window.location.href = `${contextPath}/group/groupForm.do?region=` + encodeURIComponent(name);
+		        } else {
+		            // 로그인하지 않은 상태면 로그인 페이지로 이동
+		            alert('일정을 생성하려면 로그인이 필요합니다.');
+		            window.location.href = `${contextPath}/member/loginForm.do`;
+		        }
+		    };
+
+			$('#planModal').modal('show');
+		}
+		
+
+		function filterList() {
+		    let input = document.getElementById('searchInput').value.toLowerCase();
+		    let listItems = document.querySelectorAll('.region-item');
+
+		    listItems.forEach(item => {
+		        let text = item.innerText.toLowerCase();
+		        item.style.display = text.includes(input) ? 'block' : 'none';
+		    });
+		}
+		
+		// myPage POST 요청으로 수정
+		function postToMyPage() {
+		    document.getElementById('mainMyPage').submit();
+		}
+		
+		/* 
+		function initMap() {
+	        var map = new google.maps.Map(document.getElementById("googleMap"), {
+	            center: { lat: 37.5665, lng: 126.9780 }, // 서울 시청 기준
+	            zoom: 10
+	        });
+	    } */
+	</script>
+	<!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap">
+</script> -->
+</body>
+</html>

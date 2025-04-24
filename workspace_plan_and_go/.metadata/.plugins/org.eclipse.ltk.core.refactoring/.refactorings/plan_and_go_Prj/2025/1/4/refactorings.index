@@ -1,0 +1,34 @@
+1737446522949	Copy compilation unit
+1737446533516	Rename type 'MemberService'
+1737447146623	Rename type 'MemberServiceImpl'
+1737447361518	Rename type 'MemberDAO'
+1737447370495	Rename type 'MemberDAOImpl'
+1737448467117	Copy compilation unit
+1737448475473	Rename type 'MemberVO'
+1737448487080	Rename type 'GroupVO'
+1737448578236	Copy compilation unit
+1737448708212	Move 'groupForm.jsp' to 'group'
+1737449011011	Move 'groupForm.jsp' to 'planner'
+1737449014854	Delete element
+1737531708194	Delete element
+1737531776200	Delete element
+1737533072074	Copy file
+1737533142567	Move 'groupForm.jsp' to 'group'
+1737533185845	Copy folder
+1737533219968	Rename type 'BoardController'
+1737533227983	Rename type 'BoardControllerImpl'
+1737533302455	Copy folder
+1737533311676	Copy folder
+1737533370247	Rename compilation unit 'GroupDAO.java'
+1737533375038	Rename compilation unit 'roupDAO.java'
+1737533382282	Rename type 'PlannerDAOImpl'
+1737533390638	Rename type 'PlannerService'
+1737533395808	Rename type 'PlannerServiceImpl'
+1737601792562	Copy folders
+1737601805948	Rename type 'PlaceController'
+1737601813456	Rename type 'PlaceControllerImpl'
+1737601825925	Rename type 'PlaceDAO'
+1737601832945	Rename type 'PlaceDAOImpl'
+1737601840402	Rename type 'PlaceService'
+1737601845417	Rename type 'PlaceServiceImpl'
+1737601854022	Rename type 'PlaceVO'

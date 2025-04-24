@@ -1,0 +1,89 @@
+package com.plan_and_go.plan_and_go_Prj.Ai.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
+
+
+@Controller
+public class AiControllerImpl implements AiController {
+
+    // �쐟 1. �뀒�뒪�듃�슜 - �쟾泥� 由щ럭 �슂�빟�슜 (GET)
+    @Override
+    @RequestMapping(value = "/aiConn/test.do", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView fetchData() {
+
+        String url = "http://localhost:5000/api/data";
+        ModelAndView mav = new ModelAndView("/ai/data_view");
+
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            List<Map<String, Object>> responseList = restTemplate.getForObject(url, List.class);
+
+            mav.addObject("dataList", responseList);
+            System.out.println("�쐱 �쟾泥� 由щ럭 �쓳�떟 �셿猷�");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("error", "Flask �슂泥� �떎�뙣");
+        }
+
+        return mav;
+    }
+
+    // �쐟 2. �궗�슜�옄 寃��깋 湲곕컲 異붿쿇 寃곌낵 (POST)
+    @Override
+    @RequestMapping(value = "/aiConn/test2.do", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView fetchData2(@RequestParam(value = "query", required = false) String query) {
+
+        String flaskUrl = "http://localhost:5000/api/recommend";
+        ModelAndView mav = new ModelAndView("/ai/data_view");
+
+        // 湲곕낯 寃��깋�뼱 吏��젙
+        if (query == null || query.trim().isEmpty()) {
+            query = "議곗떇 �닔�쁺�옣 諛붾떎";
+        }
+
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+
+            // JSON Body 援ъ꽦
+            Map<String, String> requestBody = new HashMap<>();
+            requestBody.put("query", query);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+            // Flask POST �슂泥�
+            Map<String, Object> response = restTemplate.postForObject(flaskUrl, requestEntity, Map.class);
+
+            // 寃곌낵 異붿텧
+            List<Map<String, Object>> resultList = (List<Map<String, Object>>) response.get("result");
+
+            mav.addObject("dataList", resultList);
+            mav.addObject("query", query);
+
+            // 濡쒓렇 異쒕젰
+            System.out.println("�쐱 Flask 異붿쿇 �쓳�떟 寃곌낵:");
+            for (Map<String, Object> hotel : resultList) {
+                System.out.println(" - " + hotel.get("hotel"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("error", "Flask 異붿쿇 �슂泥� �떎�뙣");
+        }
+
+        return mav;
+    }
+}

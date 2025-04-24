@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/plan_and_go/plan_and_go_Prj/Ai/controller/AiControllerImpl.java=UTF-8
+encoding//src/main/java/com/plan_and_go/plan_and_go_Prj/mypage/controller/MyPageControllerImpl.java=UTF-8
+encoding//src/main/java/com/plan_and_go/plan_and_go_Prj/planner/controller/PlannerControllerImpl.java=UTF-8
+encoding//src/main/java/com/plan_and_go/plan_and_go_Prj/review/controller/ReviewControllerImpl.java=UTF-8
+encoding//src/main/java/com/plan_and_go/plan_and_go_Prj/review/dao/ReviewDAOImpl.java=UTF-8
+encoding//src/main/java/com/plan_and_go/plan_and_go_Prj/review/vo/ReviewVO.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/planner/planForm.jsp=UTF-8

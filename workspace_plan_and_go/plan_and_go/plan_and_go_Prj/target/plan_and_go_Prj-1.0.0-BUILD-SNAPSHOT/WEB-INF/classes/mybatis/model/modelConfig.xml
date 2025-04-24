@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.plan_and_go.plan_and_go_Prj.member.vo.MemberVO"  alias="memberVO" />
+		<typeAlias type="com.plan_and_go.plan_and_go_Prj.place.vo.PlaceVO"  alias="placeVO" />
+		<typeAlias type="com.plan_and_go.plan_and_go_Prj.planner.vo.ActivityVO"  alias="activityVO" />
+		<typeAlias type="com.plan_and_go.plan_and_go_Prj.planner.vo.ScheduleVO"  alias="scheduleVO" />
+	</typeAliases>
+</configuration>

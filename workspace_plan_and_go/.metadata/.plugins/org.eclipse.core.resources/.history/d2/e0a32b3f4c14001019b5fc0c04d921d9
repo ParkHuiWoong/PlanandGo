@@ -1,0 +1,2403 @@
+@charset "UTF-8";
+
+
+/* findPassword.jsp css */
+#findPassword {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background-image: url('${contextPath}/resources/image/login.jpeg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#findPassword .container {
+	width: 100%;
+	max-width: 400px;
+	background: rgba(255, 255, 255, 0.7); /* ✅ 배경만 반투명하게 설정 */
+	padding: 20px;
+	border: 1px solid #007bff;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+#findPassword input {
+	width: 80%;
+	max-width: 300px;
+	padding: 8px;
+	margin: 8px 0;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#findPassword button {
+	width: 100%;
+	padding: 10px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#findPassword button:hover {
+	background-color: #0056b3;
+}
+
+#findPassword .header {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+#findPassword .header a {
+	font-size: 14px;
+	color: white;
+	background-color: #007bff;
+	padding: 10px 15px;
+	text-decoration: none;
+	border-radius: 5px;
+}
+
+#findPassword .header a:hover {
+	background-color: #0056b3;
+}
+
+/* loginForm.jsp css */
+#loginForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+	background-image: url('${contextPath}/resources/image/login.jpeg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#loginForm .container {
+	width: 100%;
+	max-width: 400px;
+	background: #fff;
+	padding: 20px;
+	border: 1px solid #007bff;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	background: rgba(255, 255, 255, 0.7);
+	text-align: center;
+	position: relative;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#loginForm .header {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#loginForm .header a {
+	font-size: 14px;
+	color: white;
+	background-color: #007bff;
+	padding: 10px 15px;
+	text-decoration: none;
+	border-radius: 5px;
+}
+
+#loginForm .header a:hover {
+	background-color: #0056b3;
+}
+
+#loginForm .container label {
+	display: block;
+	text-align: left;
+	font-size: 14px;
+	margin-bottom: 5px;
+	color: #333;
+}
+
+#loginForm .container input {
+	width: 100%;
+	max-width: 350px;
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#loginForm .forgot-password {
+	font-size: 10px;
+	color: #007bff;
+	text-decoration: none;
+	text-align: right;
+	display: block;
+	margin-right: 7px;
+	margin-bottom: 20px;
+}
+
+#loginForm .forgot-password:hover {
+	text-decoration: underline;
+}
+
+#loginForm button {
+	width: 100%;
+	padding: 10px;
+	background-color: #007bff;
+	border: none;
+	color: white;
+	border-radius: 4px;
+	font-size: 16px;
+	cursor: pointer;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#loginForm button:hover {
+	background-color: #0056b3;
+}
+
+#loginForm .signup {
+	margin-top: 15px;
+	font-size: 14px;
+	color: #333;
+}
+
+#loginForm .signup a {
+	color: #007bff;
+	text-decoration: none;
+}
+
+#loginForm .signup a:hover {
+	text-decoration: underline;
+}
+
+#loginForm .subtitle {
+	font-size: 12px;
+	color: #666;
+	margin-top: -5px;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+/* signup.jsp css */
+#signup {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+	background-image: url('${contextPath}/resources/image/login.jpeg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#signup .container {
+	width: 100%;
+	max-width: 400px;
+	padding: 20px;
+	border: 1px solid #007bff;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	position: relative;
+	background: rgba(255, 255, 255, 0.7);
+}
+
+#signup .header {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	background: rgba(255, 255, 255, 0.7);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#signup .header a {
+	font-size: 14px;
+	color: white;
+	background-color: #007bff;
+	padding: 10px 15px;
+	text-decoration: none;
+	border-radius: 5px;
+}
+
+#signup .header a:hover {
+	background-color: #0056b3;
+}
+
+#signup .container label {
+	display: block;
+	text-align: left;
+	font-size: 14px;
+	margin-bottom: 5px;
+	color: #333;
+}
+
+#signup .container input {
+	width: 100%;
+	max-width: 350px;
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.7);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#signup .container button {
+	width: 100%;
+	max-width: 350px;
+	padding: 10px;
+	background-color: #007bff;
+	border: none;
+	color: white;
+	border-radius: 4px;
+	font-size: 16px;
+	cursor: pointer;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#signup .container button:hover {
+	background-color: #0056b3;
+}
+
+#signup .input-group {
+	display: block;
+	margin-bottom: 15px;
+	width: 100%;
+	max-width: 350px;
+	margin: 0 auto 15px; /* ✅ 수평 중앙 정렬 */
+}
+
+#signup .input-group label {
+	margin-bottom: 5px;
+	font-size: 14px;
+	text-align: left;
+	display: block;
+}
+
+#signup .input-group input {
+	width: 100%;
+	margin-right: 0;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+#signup .check-btn {
+	margin-top: 5px;
+	width: 100%;
+	padding: 10px;
+	font-size: 14px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+#signup .check-btn:hover {
+	background-color: #0056b3;
+}
+
+#signup .signup-message {
+	font-size: 16px;
+	color: green;
+	margin-top: 20px;
+}
+
+#signup .signup a {
+	color: #007bff;
+	text-decoration: none;
+}
+
+#signup .signup a:hover {
+	text-decoration: underline;
+}
+
+/* main.jsp css */
+#main body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background: url('${contextPath}/resources/image/background.png')
+		no-repeat center center fixed;
+	background-size: cover;
+	height: 100vh;
+}
+
+#main .content {
+	display: flex;
+	flex-direction: row; /* 좌우 정렬 */
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+#main .content-wrapper {
+	background: rgba(255, 255, 255, 0.65); /* 반투명 흰 배경 */
+	padding: 30px;
+	border-radius: 15px;
+	max-width: 1200px;
+	margin: 30px auto;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	display: flex;
+	flex-wrap: nowrap; /* 화면 크기에 따라 반응형 */
+	justify-content: space-between;
+}
+
+#main .top-left {
+	flex: 1; /* 공간을 동등하게 차지 */
+	min-width: 45%;
+	padding: 20px;
+	justify-content: flex-start; /* 위쪽 정렬 */
+	padding: 20px 30px; /* 내부 여백 조정 */
+}
+
+#main .top-left h2 {
+	margin-bottom: 10px; /* 제목과 버튼 간격 조정 */
+}
+
+#main .top-left button {
+	margin-bottom: 15px; /* 버튼과 리스트 사이 여백 */
+}
+
+#main .top-right {
+	flex: 1; /* 공간을 동등하게 차지 */
+	min-width: 55%;
+	padding: 20px;
+}
+
+.top-box {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+}
+
+.right-box {
+  text-align: right;
+}
+
+
+
+
+#main .gallery-section .content {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr); /* 한 줄에 6개씩 출력 */
+	gap: 20px;
+	justify-content: center;
+}
+
+#main .card {
+	width: 180px;
+	height: 180px;
+	border-radius: 20px;
+	overflow: hidden;
+	cursor: pointer;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#main .card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+#main .card img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 20px;
+}
+
+#main .card-text {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	color: white;
+	font-weight: bold;
+	background-color: rgba(0, 0, 0, 0.6);
+	padding: 5px;
+	border-radius: 5px;
+}
+
+#main .gallery-section {
+	padding: 20px;
+	background: rgba(255, 255, 255, 0.65);
+	border-radius: 15px;
+	max-width: 1400px;
+	margin: 30px auto;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#main .list-group-item {
+	cursor: pointer;
+}
+
+#main .navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 20px;
+	background-color: #ffffff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#main .logo {
+	width: 120px; /* 로고 크기 조절 */
+	height: auto;
+}
+
+#main .navbar-title {
+	font-size: 22px;
+	font-weight: bold;
+	margin-left: 10px;
+	color: #333;
+}
+
+#main .nav-links {
+	display: flex;
+	gap: 20px; /* 기존보다 간격 증가 */
+	align-items: center;
+	margin-right: 20px;
+}
+
+#main .nav-btn {
+	font-size: 14px;
+	color: #007bff;
+	text-decoration: none;
+	padding: 10px 15px; /* 버튼 크기 조정 */
+	border-radius: 5px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#main .nav-btn:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+#main .navbar-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+#main .navbar-text {
+	display: none;
+}
+
+/* 리스트의 초기 상태 (숨김) */
+#main #planContainer {
+	opacity: 0;
+	transform: translateY(-15px);
+	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+	display: none;
+	z-index: 100;
+	overflow-y: auto; /* 스크롤 가능하도록 설정 */
+	position: absolute; /* 고정된 위치 유지 */
+}
+
+#main #planContainer.show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* myPage.jsp css */
+#myPage body {
+	font-family: 'Noto Sans KR', sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f7f7f7;
+	background-image: url('${contextPath}/resources/image/myPage.jpeg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#myPage nav {
+	background-color: #007bff;
+	color: white;
+	padding: 10px 20px;
+	display: flex;
+	justify-content: space-between; /* 로고와 메뉴를 양쪽 끝으로 정렬 */
+	align-items: center;
+}
+
+#myPage .logo {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+
+#myPage .nav-menu {
+	display: flex;
+	gap: 0px; /* 버튼 사이 간격 */
+}
+
+#myPage .nav-menu a {
+	background-color: white; /* 흰색 배경 */
+	color: #007bff; /* 파란색 글씨 */
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 8px 15px;
+	border-radius: 5px;
+	border: 1px solid #007bff; /* 파란색 테두리 */
+	transition: all 0.3s ease-in-out;
+	margin-left: -2px; /* 버튼 간격을 더 좁힘 */
+}
+
+/* 버튼 호버 효과 */
+#myPage .nav-menu a:hover {
+	background-color: #007bff; /* 배경을 파란색으로 변경 */
+	color: white; /* 글씨를 흰색으로 변경 */
+}
+
+#myPage nav a {
+	color: white;
+	text-decoration: none;
+	font-size: 16px;
+	margin: 0 15px;
+	font-weight: bold;
+}
+
+#myPage .container {
+	display: flex;
+	max-width: 1200px;
+	margin: 30px auto;
+	gap: 20px;
+}
+
+#myPage .left-section {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+#myPage .right-section {
+	width: 50%;
+}
+
+#myPage section {
+	background: white;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	border: 1px solid #007bff; /* 파란색 테두리 추가 */
+}
+
+#myPage .plan-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 15px;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	border: 1px solid #007bff; /* 파란색 테두리 추가 */
+}
+
+#myPage .btn-group {
+	display: flex;
+	justify-content: flex-start; /* 왼쪽 정렬 */
+	gap: 10px; /* 버튼 간 간격 */
+	margin-top: 10px;
+}
+
+#myPage button {
+	background: linear-gradient(135deg, #007bff, #0056b3);
+	color: white;
+	border: none;
+	padding: 10px 18px;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: 0.3s ease-in-out;
+	white-space: nowrap;
+}
+
+#myPage button:hover {
+	background: linear-gradient(135deg, #0056b3, #003f87);
+	transform: scale(1.05);
+}
+
+#myPage ul {
+	list-style: none;
+	padding: 0;
+}
+
+#myPage ul li {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+#myPage ul li:last-child {
+	border-bottom: none;
+}
+
+@media ( max-width : 768px) {
+	#myPage .container {
+		flex-direction: column;
+		width: 90%;
+	}
+	#myPage .left-section, #myPage .right-section {
+		width: 100%;
+	}
+}
+
+/* groupForm.jsp css */
+
+#groupForm {
+	position: relative;
+	z-index: 2; /* ✅ 폼이 배경보다 위에 위치하도록 설정 */
+	background: white;
+	padding: 30px;
+	border-radius: 10px;
+	width: 400px;
+	text-align: center;
+	border: 1px solid #007bff;
+	border: none !important; /* ✅ 테두리 제거 */
+	box-shadow: none !important; /* ✅ 박스 그림자 제거 */
+	background-image: url('${contextPath}/resources/image/plan.jpeg');
+	background-size: cover; /* ✅ 화면에 꽉 차도록 설정 */
+	background-position: center; /* ✅ 화면 중앙 정렬 */
+	background-repeat: no-repeat;
+	background-attachment: fixed; /* ✅ 고정 배경 */
+}
+
+#groupForm .navbar {
+	position: fixed; /* 화면 상단 고정 */
+    top: 0; /* 최상단 배치 */
+    left: 0;
+    width: 100%; /* 전체 너비 차지 */
+    z-index: 1000; /* 다른 요소 위로 배치 */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 20px;
+	background-color: #ffffff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#groupForm .logo {
+	width: 120px; /* 로고 크기 조절 */
+	height: auto;
+}
+
+#groupForm .navbar-title {
+	font-size: 22px;
+	font-weight: bold;
+	margin-left: 10px;
+	color: #333;
+}
+
+#groupForm .nav-links {
+	display: flex;
+	gap: 20px; /* 기존보다 간격 증가 */
+	align-items: center;
+	margin-right: 20px;
+}
+
+#groupForm .nav-btn {
+	font-size: 14px;
+	color: #007bff;
+	text-decoration: none;
+	padding: 10px 15px; /* 버튼 크기 조정 */
+	border-radius: 5px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#groupForm .nav-btn:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+#groupForm .navbar-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+#groupForm .navbar-text {
+	display: none;
+}
+
+#groupFormContainer::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+
+/* 컨테이너 내용은 z-index를 높여서 배경 위로 오도록 설정 */
+#groupFormContainer {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 전체 화면 */
+	width: 100vw;
+}
+
+#groupForm .form-label {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#groupForm .form-control {
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+}
+
+#groupForm button {
+	width: 100%;
+	padding: 12px;
+	font-size: 16px;
+	border: none;
+	border-radius: 5px;
+	background: linear-gradient(135deg, #007bff, #0056b3);
+	color: white;
+	cursor: pointer;
+	transition: 0.3s ease-in-out;
+}
+
+#groupForm button:hover {
+	background: linear-gradient(135deg, #0056b3, #003f87);
+	transform: scale(1.05);
+}
+
+/* planForm.jsp css */
+#planForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100vh;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+	background-image: url('${contextPath}/resources/image/plan.jpeg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#planForm .navbar {
+	position: fixed; /* 화면 상단 고정 */
+    top: 0; /* 최상단 배치 */
+    left: 0;
+    width: 100%; /* 전체 너비 차지 */
+    z-index: 1000; /* 다른 요소 위로 배치 */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 20px;
+	background-color: #ffffff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#planForm .logo {
+	width: 120px; /* 로고 크기 조절 */
+	height: auto;
+}
+
+#planForm .navbar-title {
+	font-size: 22px;
+	font-weight: bold;
+	margin-left: 10px;
+	color: #333;
+}
+
+#planForm .nav-links {
+	display: flex;
+	gap: 20px; /* 기존보다 간격 증가 */
+	align-items: center;
+	margin-right: 20px;
+}
+
+#planForm .nav-btn {
+	font-size: 14px;
+	color: #007bff;
+	text-decoration: none;
+	padding: 10px 15px; /* 버튼 크기 조정 */
+	border-radius: 5px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#planForm .nav-btn:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+#planForm .navbar-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+#planForm .navbar-text {
+	display: none;
+}
+
+/* === 내부 박스 스타일 === */
+#planForm .container {
+	width: 100%;
+	max-width: 450px;
+	background: #fff;
+	padding: 30px;
+	border: 1px solid #007bff;
+	border-radius: 8px;
+	text-align: center;
+}
+
+/* === 제목 스타일 === */
+#planForm h1 {
+	font-size: 22px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+/* === 라벨 스타일 === */
+#planForm label {
+	display: block;
+	text-align: left;
+	font-size: 14px;
+	margin-bottom: 5px;
+	color: #333;
+}
+
+/* === 입력 필드 스타일 === */
+#planForm input, #planForm select {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+/* === 날짜 선택 부분 정렬 === */
+#planForm .date-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+}
+
+#planForm .date-container input {
+	flex: 1;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	text-align: center;
+}
+
+#planForm .date-container button {
+	padding: 10px 15px;
+	background-color: #007bff;
+	color: white;
+	border: 1px solid #007bff;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: background-color 0.3s;
+	white-space: nowrap;
+}
+
+#planForm .date-container button:hover {
+	background-color: #0056b3;
+	border: 1px solid #0056b3;
+}
+
+#planForm button {
+	width: 100%;
+	padding: 12px;
+	background-color: #007bff;
+	border: none;
+	color: white;
+	border-radius: 4px;
+	font-size: 16px;
+	cursor: pointer;
+	margin-top: 20px;
+}
+
+#planForm button:hover {
+	background-color: #0056b3;
+}
+
+#planForm .modal-header .btn-close {
+	position: absolute;
+	top: 0px;
+	right: 12px;
+	width: 20px; /* 기존보다 작게 설정 */
+	height: 20px;
+	font-size: 16px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: 0.2s;
+}
+
+/* 마우스 호버 효과 */
+#planForm .modal-header .btn-close:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+	border-radius: 50%;
+}
+
+#planForm .btn-secondary {
+	margin-top: 0px;
+	margin-bottom: 15px; /* 원하는 만큼 조정 (예: -5px) */
+}
+
+#planForm .date-container button, #planForm .date-container input {
+	flex: 1;
+	height: 38px; /* 입력 필드와 동일한 높이로 설정 */
+	padding: 8px 12px;
+	font-size: 14px;
+}
+
+#planForm .date-container button {
+	white-space: nowrap; /* 버튼 내부 텍스트 줄바꿈 방지 */
+	text-align: center;
+}
+
+/* planForm2.jsp css */
+#planForm2 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100vh;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+	background-image: url('${contextPath}/resources/image/plan.jpeg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+/* === planForm2 컨테이너 크기 조정 및 테두리 얇게 적용 === */
+#planForm2 .container {
+	width: 100%;
+	max-width: 850px;
+	background: #ffffff;
+	padding: 30px;
+	border-radius: 10px;
+	border: 1px solid #007bff; /* 기존 2px → 1px로 얇게 */
+	box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+	text-align: center;
+	
+}
+
+#planForm2 .logo {
+	width: 120px; /* 로고 크기 조절 */
+	height: auto;
+}
+
+/* 네비게이션 바 스타일 조정 */
+#planForm2 .navbar {
+	position: fixed; /* 상단 고정 */
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 20px;
+	background-color: #ffffff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 기본 스타일 */
+#planForm2 .nav-btn {
+	font-size: 14px;
+	padding: 8px 18px;
+	border-radius: 5px;
+	transition: all 0.3s ease;
+	font-weight: 500;
+	margin-left: 5px; /* 버튼 간격 */
+	background-color: white; /* 기본 배경 */
+	border: 1px solid transparent; /* 기본 테두리 없음 */
+}
+
+/* 🚀 Bootstrap outline 버튼 스타일 강제 적용 */
+#planForm2 .btn-outline-primary {
+	background-color: white !important;  /* 기본 흰 배경 */
+	color: #007bff !important;  /* 파란색 글씨 */
+	border: 1px solid #007bff !important;  /* 파란색 테두리 */
+}
+
+#planForm2 .btn-outline-primary:hover {
+	background-color: #007bff !important;
+	color: white !important;
+}
+
+/* 🎯 리뷰 게시판 버튼 */
+#planForm2 .btn-outline-secondary {
+	background-color: white !important;
+	color: #6c757d !important;
+	border: 1px solid #6c757d !important;
+}
+
+#planForm2 .btn-outline-secondary:hover {
+	background-color: #6c757d !important;
+	color: white !important;
+}
+
+/* 🟢 마이페이지 버튼 */
+#planForm2 .btn-outline-success {
+	background-color: white !important;
+	color: #198754 !important;
+	border: 1px solid #198754 !important;
+}
+
+#planForm2 .btn-outline-success:hover {
+	background-color: #198754 !important;
+	color: white !important;
+}
+
+/* 버튼 간격 조정 */
+#planForm2 .navbar .btn {
+	margin-right: 5px; /* 버튼 간격을 자연스럽게 조정 */
+}
+
+/* === 저장된 일정 테이블을 폼 안에 정렬하고 테두리 얇게 조정 === */
+#planForm2 .table-container {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	overflow-x: auto;
+	border: 1px solid #007bff; /* 기존 2px → 1px로 조정 */
+	border-radius: 10px;
+}
+
+/* === 테이블 크기 조정 및 테두리 얇게 적용 === */
+#planForm2 table {
+	width: 100%;
+	max-width: 800px;
+	border-collapse: collapse;
+	margin-top: 15px;
+	border: 1px solid #007bff; /* 기존 2px → 1px */
+}
+
+/* === 테이블 각 셀(칸)에도 얇은 테두리 적용 === */
+#planForm2 th {
+	border: 1px solid #007bff; /* 기존 1.5px → 1px */
+	padding: 8px;
+	text-align: center;
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+#planForm2 td {
+	border: 1px solid #007bff; /* 테두리 유지 */
+	padding: 8px;
+	text-align: center;
+	font-size: 14px;
+	white-space: normal; /* 줄 바꿈 허용 */
+	word-wrap: break-word; /* 긴 단어가 있으면 자동 줄 바꿈 */
+	overflow-wrap: break-word; /* 긴 단어도 줄 바꿈 */
+	max-width: 150px; /* 셀 최대 너비 제한 (조정 가능) */
+}
+
+#planForm2 td.memo-column {
+	white-space: normal; /* 기본적으로 줄 바꿈 허용 */
+	word-wrap: break-word; /* 긴 단어가 있을 경우 자동 줄 바꿈 */
+	overflow-wrap: break-word; /* 줄 바꿈 강제 */
+	max-width: 150px; /* 최대 너비 지정 */
+}
+
+/* === 날짜 목록(버튼) 테두리 얇게 조정 === */
+#planForm2 .list-group-item {
+	border: 1px solid #007bff !important; /* 기존 2px → 1px */
+	border-radius: 5px;
+	transition: all 0.3s ease;
+}
+
+/* === 버튼 호버 시 효과 유지 === */
+#planForm2 .list-group-item:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+/* === 입력 필드(도시 선택, 날짜 선택)에도 얇은 테두리 적용 === */
+#planForm2 input, #planForm2 select {
+	border: 1px solid #007bff; /* 기존 2px → 1px */
+	border-radius: 5px;
+	padding: 8px;
+	font-size: 14px;
+}
+
+/* === 방문 장소 입력 필드와 버튼을 한 줄에 정렬 === */
+#planForm2 .d-flex {
+	display: flex;
+	align-items: center;
+	gap: 10px; /* 입력 필드와 버튼 사이 간격 */
+}
+
+/* === 방문 장소 입력 필드 크기 조정 === */
+#planForm2 #UPDATE_PLACE_NAME {
+	flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+	min-width: 0; /* flex-grow 사용 시 필요 */
+	padding: 10px;
+}
+
+/* === 장소 선택 버튼 크기 조정 === */
+#planForm2 .btn-secondary {
+	white-space: nowrap; /* 버튼 텍스트가 줄 바꿈되지 않도록 설정 */
+	padding: 10px 15px;
+	font-size: 14px;
+}
+
+/* === 모든 label을 왼쪽 정렬 === */
+#planForm2 .form-label {
+	display: block;
+	text-align: left;
+	font-weight: bold;
+	margin-bottom: 5px;
+	padding-left: 5px;
+}
+
+/* === select (도시 선택 & 날짜 선택) 스타일 조정 === */
+#planForm2 .form-select {
+	width: 100%; /* 가로 크기 유지 */
+	padding: 10px;
+	border: 1px solid #007bff;
+	border-radius: 5px;
+	font-size: 14px;
+	text-align: left;
+}
+
+/* === "날짜 선택" 부분을 왼쪽으로 정렬 === */
+#planForm2 .date-filter-container {
+	width: 100%;
+	text-align: left; /* 전체 컨테이너 왼쪽 정렬 */
+}
+
+#planForm2 label {
+	display: inline-block;
+	width: auto;
+	margin-right: 10px; /* 라벨과 선택창 사이 여백 */
+}
+
+#planForm2 select {
+	display: inline-block;
+	width: calc(100% - 120px); /* 라벨을 제외한 나머지 공간 차지 */
+}
+
+/* 저장된 일정 + 마이페이지 버튼을 정렬할 컨테이너 */
+#planForm2 .schedule-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between; /* 좌측: 저장된 일정 제목, 우측: 마이페이지 버튼 */
+	width: 100%;
+	margin-bottom: 10px; /* 테이블과의 간격 조정 */
+}
+
+/* 마이페이지 버튼 스타일 */
+#planForm2 .mypage-btn {
+	background-color: #007bff;
+	color: white;
+	padding: 8px 15px;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 5px;
+	text-decoration: none;
+	border: none;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+/* 버튼 호버 효과 */
+#planForm2 .mypage-btn:hover {
+	background-color: #0056b3;
+	transform: scale(1.05);
+}
+
+/* 날짜 선택 부분을 왼쪽 정렬하고 너비 조정 */
+#planForm2 .date-filter-container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start; /* 왼쪽 정렬 */
+	gap: 15px; /* "날짜 선택" 문구와 드롭다운 사이 간격 */
+	margin-top: 20px;
+	margin-bottom: 15px; /* 아래 요소와의 간격 */
+}
+
+/* "날짜 선택" 문구 스타일 */
+#planForm2 label.date-label {
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
+	text-align: left;
+	min-width: 120px; /* 너비 확보 */
+}
+
+/* 날짜 선택 드롭다운 스타일 */
+#planForm2 select.date-select {
+	width: 100%;
+	max-width: 400px; /* 드롭다운 너비 넓힘 */
+	padding: 10px;
+	border: 1px solid #007bff;
+	border-radius: 5px;
+	font-size: 14px;
+	text-align: left;
+}
+
+/* 모든 모달 크기 동일하게 설정 */
+#planForm2 .modal-dialog {
+	max-width: 800px; /* 모든 모달을 동일한 너비로 설정 */
+	width: 100%;
+}
+
+/* 모든 버튼을 파란색 배경, 흰 글씨로 변경 */
+#planForm2 .btn {
+	background-color: #007bff !important;
+	color: white !important;
+	border: none !important;
+	padding: 10px 15px;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 5px;
+	transition: all 0.3s ease-in-out;
+}
+
+/* 버튼 호버 효과 */
+#planForm2 .btn:hover {
+	background-color: #0056b3 !important;
+	transform: scale(1.05);
+}
+
+/* 모달 내 이미지 크기 조정 */
+#planForm2 .modal-body img {
+	width: 25%; /* 원래 크기의 1/4로 조정 */
+	height: auto; /* 비율 유지 */
+	display: block;
+	margin: 10px auto; /* 중앙 정렬 */
+	border-radius: 8px; /* 둥근 모서리 적용 */
+}
+
+/* 장소 리스트 & 수정 모달 내부 스타일 통일 */
+#planForm2 .modal-body .place-container, #planForm2 .modal-body .update-place-container
+	{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between; /* 두 개씩 균등 배치 */
+	gap: 10px; /* 카드 간격 */
+}
+
+/* 개별 장소 카드 스타일 (수정 모달도 동일하게 적용) */
+#planForm2 .modal-body .place-item, #planForm2 .modal-body .update-place-item
+	{
+	width: 48%; /* 두 개씩 배치 */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 15px;
+	background: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	transition: transform 0.2s ease-in-out;
+}
+
+/* 카드 호버 효과 */
+#planForm2 .modal-body .place-item:hover, #planForm2 .modal-body .update-place-item:hover
+	{
+	transform: scale(1.02);
+}
+
+/* 장소 이미지 크기 조정 */
+#planForm2 .modal-body .place-item img, #planForm2 .modal-body .update-place-item img
+	{
+	width: 100%; /* 카드 너비에 맞춤 */
+	max-width: 150px; /* 크기 제한 */
+	height: auto; /* 비율 유지 */
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+/* 장소 이름 스타일 */
+#planForm2 .modal-body .place-item h6, #planForm2 .modal-body .update-place-item h6
+	{
+	margin-top: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+}
+
+#planForm2 #scheduleModal .modal-dialog, #planForm2 #scheduleUpdateModal .modal-dialog
+	{
+	max-width: 500px; /* 일정 입력 & 수정 모달 크기 고정 */
+}
+
+/* 장소 상세 정보 모달 내부 스타일 */
+#planForm2 .place-modal-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+/* 장소 상세 정보 모달 이미지 크기 원본 유지 */
+#planForm2 .place-modal-content img {
+	width: auto; /* 가로 크기를 자동으로 조정 */
+	max-width: 100%; /* 모달보다 크지 않도록 설정 */
+	height: auto; /* 비율 유지 */
+	max-height: 500px; /* 최대 높이 제한 */
+	border-radius: 10px; /* 부드러운 모서리 */
+	object-fit: contain; /* 이미지 비율 유지하며 크기 맞춤 */
+}
+
+#planForm2 #placeModal .modal-dialog {
+	max-width: 600px; /* 장소 상세 정보 모달 크기 조정 */
+	width: auto;
+}
+
+#planForm2 #placeModal .modal-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 20px;
+}
+
+/* 장소 상세 정보 모달 내부 이미지 크기 조정 */
+#planForm2 #placeModal .modal-body img {
+	width: auto; /* 원본 비율 유지 */
+	max-width: 100%; /* 모달 크기보다 커지지 않도록 설정 */
+	max-height: 500px; /* 최대 높이 제한 */
+	border-radius: 10px; /* 부드러운 모서리 */
+	object-fit: contain; /* 비율 유지하며 크기 맞춤 */
+}
+
+#planForm2 #placeModal .btn-close {
+	position: absolute;
+	top: 15px;
+	right: 12px;
+	width: 20px; /* 기존보다 작게 설정 */
+	height: 20px;
+	font-size: 16px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: 0.2s;
+}
+
+/* updateNickname.jsp 스타일 */
+#updateNickname {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f7f7f7;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 화면 중앙 정렬 */
+	background-image: url('${contextPath}/resources/image/myPage.jpg'); /* 배경 이미지 경로 */
+    background-size: cover;  /* 이미지를 화면에 맞게 조절 */
+    background-position: center; /* 중앙 정렬 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+    background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#updateNickname .container {
+	background: white;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	width: 350px; /* 크기 조정 */
+	border: 1px solid #007bff;
+	text-align: center;
+}
+
+#updateNickname h2 {
+	font-size: 22px;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+#updateNickname label {
+	display: block;
+	font-weight: bold;
+	text-align: left;
+	margin: 10px 0 5px;
+	width: 100%;
+	max-width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#updateNickname input, #updateNickname button {
+	width: 100%;
+	max-width: 300px;
+	box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 조정 */
+}
+
+#updateNickname input {
+	padding: 10px;
+	margin: 5px 0 15px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+#updateNickname button {
+	background: #007bff;
+	color: white;
+	border: none;
+	padding: 12px;
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: 0.3s ease-in-out;
+}
+
+#updateNickname button:hover {
+	background: #0056b3;
+}
+
+#updateNickname a {
+	display: block;
+	margin-top: 15px;
+	color: #007bff;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#updateNickname a:hover {
+	text-decoration: underline;
+}
+
+/* updatePhoneNumber.jsp 스타일 */
+#updatePhoneNumber {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f7f7f7;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 화면 중앙 정렬 */
+	background-image: url('${contextPath}/resources/image/myPage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#updatePhoneNumber .container {
+	background: white;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	width: 350px; /* 크기 조정 */
+	border: 1px solid #007bff; /* 파란색 테두리 추가 */
+	text-align: center;
+}
+
+#updatePhoneNumber h2 {
+	font-size: 22px;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+#updatePhoneNumber label {
+	display: block;
+	font-weight: bold;
+	text-align: left;
+	margin: 10px 0 5px;
+	width: 100%;
+	max-width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#updatePhoneNumber input, #updatePhoneNumber button {
+	width: 100%;
+	max-width: 300px;
+	box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 조정 */
+}
+
+#updatePhoneNumber input {
+	padding: 10px;
+	margin: 5px 0 15px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+#updatePhoneNumber button {
+	background: #007bff;
+	color: white;
+	border: none;
+	padding: 12px;
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: 0.3s ease-in-out;
+}
+
+#updatePhoneNumber button:hover {
+	background: #0056b3;
+}
+
+#updatePhoneNumber a {
+	display: block;
+	margin-top: 15px;
+	color: #007bff;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#updatePhoneNumber a:hover {
+	text-decoration: underline;
+}
+
+/* updateEmail.jsp 스타일 */
+#updateEmail {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f7f7f7;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 화면 중앙 정렬 */
+	background-image: url('${contextPath}/resources/image/myPage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#updateEmail .container {
+	background: white;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	width: 350px; /* 크기 조정 */
+	border: 1px solid #007bff; /* 파란색 테두리 추가 */
+	text-align: center;
+}
+
+#updateEmail h2 {
+	font-size: 22px;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+#updateEmail label {
+	display: block;
+	font-weight: bold;
+	text-align: left;
+	margin: 10px 0 5px;
+	width: 100%;
+	max-width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#updateEmail input, #updateEmail button {
+	width: 100%;
+	max-width: 300px;
+	box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 조정 */
+}
+
+#updateEmail input {
+	padding: 10px;
+	margin: 5px 0 15px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+#updateEmail button {
+	background: #007bff;
+	color: white;
+	border: none;
+	padding: 12px;
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: 0.3s ease-in-out;
+}
+
+#updateEmail button:hover {
+	background: #0056b3;
+}
+
+#updateEmail a {
+	display: block;
+	margin-top: 15px;
+	color: #007bff;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#updateEmail a:hover {
+	text-decoration: underline;
+}
+
+/* passwordUpdate.jsp 스타일 */
+#passwordUpdate {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f8f9fa;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 화면 중앙 정렬 */
+}
+
+#passwordUpdate .container {
+	width: 350px; /* 기존보다 약간 줄임 */
+	min-width: 250px; /* 최소 크기도 줄이기 */
+	background: white;
+	padding: 40px; /* 내부 여백도 조금 줄이기 */
+	border-radius: 10px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+	border: 1px solid #007bff;
+	text-align: center;
+}
+
+#passwordUpdate h1 {
+	color: black;
+	font-size: 22px;
+	margin-top: 5px; /* 제목을 위로 이동 */
+	margin-bottom: 40px; /* 입력 필드와 간격 유지 */
+}
+
+#passwordUpdate form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+#passwordUpdate .form-group {
+	width: 100%;
+	max-width: 450px;
+	margin-bottom: 15px;
+	text-align: left;
+}
+
+#passwordUpdate label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 5px;
+}
+
+#passwordUpdate input {
+	width: 100%;
+	max-width: 450px;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+	box-sizing: border-box;
+}
+
+#passwordUpdate button {
+	width: 100%;
+	max-width: 450px;
+	margin-top: 20px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 12px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+#passwordUpdate button:hover {
+	background-color: #0056b3;
+}
+
+#passwordUpdate a {
+	display: block;
+	margin-top: 12px;
+	color: #007bff;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#passwordUpdate a:hover {
+	text-decoration: underline;
+}
+
+/* review.jsp css */
+#review {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow-x: hidden;
+	background-image: url('${contextPath}/resources/image/board.jpg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#review .navbar {
+	background: #007bff;
+	padding: 15px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#review .navbar-text {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+
+#review .nav-menu {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 5px;
+	padding-right: 30px;
+}
+
+#review .container {
+	width: 90%;
+	max-width: 800px;
+	background: white;
+	padding: 20px;
+	border-radius: 12px;
+	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+	margin: 40px auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#review h2 {
+	text-align: center;
+	font-size: 24px;
+	font-weight: 600;
+	color: #333;
+	margin-bottom: 15px;
+}
+
+#review .table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 15px;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+#review .table thead {
+	background-color: #007bff;
+	color: white;
+}
+
+#review .table th, #review .table td {
+	padding: 12px; /* padding 줄이기 */
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+	font-size: 14px;
+}
+
+#review .add-post-btn {
+	display: block;
+	width: 160px;
+	margin: 15px auto;
+	text-align: center;
+	background: linear-gradient(135deg, #007bff, #0056b3);
+	color: white;
+	padding: 10px 0;
+	font-weight: 600;
+	border-radius: 30px;
+	text-decoration: none;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+}
+
+#review .add-post-btn:hover {
+	background: linear-gradient(135deg, #0056b3, #003f87);
+	transform: translateY(-2px);
+}
+
+#review .nav-btn {
+	display: inline-block;
+	padding: 8px 15px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #007bff;
+	background-color: white;
+	border: 2px solid #007bff;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none;
+	transition: all 0.3s ease-in-out;
+}
+
+#review .nav-btn:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+@media ( max-width : 768px) {
+	#review .container {
+		width: 95%;
+		padding: 15px;
+	}
+	#review .table th, #review .table td {
+		padding: 10px;
+		font-size: 13px;
+	}
+	#review .navbar {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	#review .navbar .btn {
+		margin-top: 10px;
+	}
+}
+
+/* reviewWrite.jsp css */
+#reviewWrite {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow-x: hidden;
+	background-image: url('${contextPath}/resources/image/board.jpg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+/* 네비게이션 바 스타일 */
+#reviewWrite nav {
+	background-color: #007bff;
+	padding: 15px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#reviewWrite nav a {
+	color: white;
+	text-decoration: none;
+	font-size: 18px;
+	font-weight: bold;
+	margin-right: 15px;
+}
+
+#reviewWrite nav .btn {
+	background-color: #fff;
+	color: #007bff;
+	padding: 8px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bold;
+	transition: 0.3s;
+}
+
+#reviewWrite nav .btn:hover {
+	background-color: #0056b3;
+	color: white;
+}
+
+/* 컨테이너 스타일 */
+#reviewWrite .container {
+	width: 400px;
+	max-width: 90%;
+	background: white;
+	padding: 40px; /* 내부 패딩 조정 */
+	border-radius: 12px;
+	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+	margin: 100px auto;
+	border: 2px solid #007bff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* 폼 내부 요소 정렬 */
+#reviewWrite form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* 라벨 정렬 */
+#reviewWrite label {
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	width: 100%;
+	text-align: left;
+	margin-bottom: 5px;
+}
+
+/* 입력 필드 스타일 (로그인 페이지 느낌으로 변경) */
+#reviewWrite select, #reviewWrite input[type="text"], #reviewWrite textarea,
+	#reviewWrite input[type="number"] {
+	width: 100%;
+	max-width: 100%;
+	padding: 12px;
+	margin-bottom: 15px;
+	border: 1px solid #007bff;
+	border-radius: 6px;
+	font-size: 16px;
+	background-color: white;
+	box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05); /* 내부 그림자 추가 */
+	transition: all 0.2s ease-in-out;
+}
+
+/* 포커스 효과 (입력 중 강조) */
+#reviewWrite select:focus, #reviewWrite input[type="text"]:focus,
+	#reviewWrite textarea:focus, #reviewWrite input[type="number"]:focus {
+	border-color: #007bff;
+	box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3);
+	outline: none;
+}
+
+/* 리뷰 내용 칸 크기 유지 */
+#reviewWrite textarea {
+	height: 150px;
+	resize: none;
+}
+
+/* 버튼 스타일 */
+#reviewWrite input[type="submit"] {
+	background: #007bff;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	width: 100%;
+	padding: 12px;
+	border-radius: 6px;
+	border: none;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	font-size: 16px;
+}
+
+#reviewWrite input[type="submit"]:hover {
+	background: #0056b3;
+	transform: translateY(-2px);
+}
+
+#reviewWrite select {
+	width: 100%; /* 기존보다 너비 줄임 */
+	max-width: 500px; /* 최대 너비 설정 */
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #007bff;
+	border-radius: 6px;
+	font-size: 16px;
+	background-color: white;
+	text-align: left;
+}
+
+/* 반응형 디자인 */
+@media ( max-width : 768px) {
+	#reviewWrite .container {
+		width: 90%;
+		padding: 30px;
+	}
+}
+
+/* reviewView.jsp css */
+#reviewView {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-image: url('${contextPath}/resources/image/board.jpg');
+	/* 배경 이미지 경로 */
+	background-size: cover; /* 이미지를 화면에 맞게 조절 */
+	background-position: center; /* 중앙 정렬 */
+	background-repeat: no-repeat; /* 이미지 반복 방지 */
+	background-attachment: fixed; /* 스크롤 시 배경 고정 */
+}
+
+#reviewView nav {
+	background-color: #007bff;
+	padding: 15px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#reviewView nav a {
+	color: white;
+	text-decoration: none;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#reviewView nav .btn {
+	background-color: white;
+	color: #007bff;
+	padding: 8px 15px;
+	border-radius: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	transition: all 0.3s ease-in-out;
+	border: 2px solid white;
+}
+
+#reviewView nav .btn:hover {
+	background-color: #0056b3;
+	color: white;
+	border-color: #0056b3;
+}
+
+/* ✅ 게시글 컨테이너 */
+#reviewView .container {
+	max-width: 800px;
+	background: white;
+	padding: 25px;
+	border-radius: 10px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+	margin: 40px auto;
+	border: 1px solid #007bff;
+}
+
+/* ✅ 게시글 제목 */
+#reviewView .container h2 {
+	color: #0056b3;
+	font-size: 24px;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #007bff;
+	padding-bottom: 5px;
+}
+
+/* ✅ 작성자 및 정보 */
+#reviewView .container p {
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+#reviewView .container p strong {
+	color: #007bff;
+	font-weight: bold;
+}
+
+/* ✅ 구분선 */
+#reviewView hr {
+	border: 0;
+	height: 1px;
+	background: #ddd;
+	margin: 20px 0;
+}
+
+/* ✅ 반응형 디자인 */
+@media ( max-width : 768px) {
+	#reviewView .container {
+		width: 90%;
+		padding: 20px;
+	}
+	#reviewView nav {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	#reviewView nav .btn {
+		margin-top: 10px;
+	}
+}
+
+/* ✅ 삭제 & 수정 버튼을 한 줄에 정렬 */
+#reviewView .action-buttons {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px; /* 버튼 간격 조정 */
+	margin-top: 10px;
+}
+
+/* ✅ 버튼 디자인 (로그아웃 버튼과 유사하게) */
+#reviewView .action-buttons .btn {
+	background-color: white;
+	color: #007bff;
+	padding: 8px 12px;
+	border-radius: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+	border: 1px solid #007bff;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+#reviewView .action-buttons .btn:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+/* ✅ 목록 버튼 스타일 */
+#reviewView .btn-list {
+	background-color: white;
+	color: #007bff;
+	padding: 8px 15px;
+	border-radius: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+	border: 1px solid #007bff;
+	transition: all 0.3s ease-in-out;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#reviewView .btn-list:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+/* ✅ 삭제 & 수정 버튼을 같은 스타일로 */
+#reviewView .action-buttons {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px; /* 버튼 간격 */
+	margin-top: 15px;
+}
+
+#reviewView .btn {
+	background-color: white;
+	color: #007bff;
+	padding: 6px 12px;
+	border-radius: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+	border: 1px solid #007bff;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ✅ 삭제 버튼 */
+#reviewView .btn-delete {
+	background-color: white;
+	color: #dc3545;
+	border: 1px solid #dc3545;
+}
+
+#reviewView .btn-delete:hover {
+	background-color: #dc3545;
+	color: white;
+}
+
+/* ✅ 수정 버튼 */
+#reviewView .btn-edit {
+	background-color: white;
+	color: #007bff;
+	border: 1px solid #007bff;
+}
+
+#reviewView .btn-edit:hover {
+	background-color: #007bff;
+	color: white;
+}
+
+/* reviewUpdate.jsp css */
+#reviewUpdate {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+
+/* ✅ 네비게이션 바 */
+#reviewUpdate nav {
+	background-color: #007bff;
+	padding: 15px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#reviewUpdate nav a {
+	color: white;
+	text-decoration: none;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#reviewUpdate nav .btn {
+	background-color: white;
+	color: #007bff;
+	padding: 8px 15px;
+	border-radius: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	transition: all 0.3s ease-in-out;
+	border: 2px solid white;
+}
+
+#reviewUpdate nav .btn:hover {
+	background-color: #0056b3;
+	color: white;
+	border-color: #0056b3;
+}
+
+/* ✅ 수정 폼 컨테이너 */
+#reviewUpdate .container {
+	max-width: 350px;
+	background: white;
+	padding: 25px;
+	border-radius: 10px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+	margin: 40px auto;
+	border: 1px solid #007bff; /* 파란색 테두리 추가 */
+}
+
+/* ✅ 제목 */
+#reviewUpdate .container h2 {
+	color: #0056b3;
+	font-size: 22px;
+	margin-bottom: 20px;
+	border-bottom: 2px solid #007bff;
+	padding-bottom: 5px;
+}
+
+/* ✅ 폼 스타일 */
+#reviewUpdate form {
+	display: flex;
+	flex-direction: column;
+}
+
+/* ✅ 입력 필드 스타일 */
+#reviewUpdate label {
+	font-weight: bold;
+	margin-top: 10px;
+	color: #333;
+}
+
+#reviewUpdate input[type="text"], #reviewUpdate textarea, #reviewUpdate input[type="number"]
+	{
+	width: 93%;
+	max-width: 400px;
+	padding: 10px;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+	border: 1px solid #007bff; /* 테두리 색 변경 */
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+#reviewUpdate textarea {
+	height: 150px;
+	max-width: 400px;
+	resize: vertical;
+}
+
+/* ✅ 버튼 스타일 */
+#reviewUpdate input[type="submit"] {
+	margin-top: 20px;
+	width: 100%;
+	max-width: 400px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 12px;
+	border: 1px solid #007bff; /* 파란색 테두리 추가 */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+#reviewUpdate input[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+#reviewUpdate input[type="submit"] {
+	margin-top: 20px;
+	width: 100%;
+	max-width: 400px;
+	background-color: #007bff;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 12px;
+	border: 1px solid #007bff; /* 파란색 테두리 추가 */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+#reviewUpdate input[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* ✅ 반응형 디자인 */
+@media ( max-width : 768px) {
+	#reviewUpdate .container {
+		width: 90%;
+		padding: 20px;
+	}
+	#reviewUpdate nav {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	#reviewUpdate nav .btn {
+		margin-top: 10px;
+	}
+}

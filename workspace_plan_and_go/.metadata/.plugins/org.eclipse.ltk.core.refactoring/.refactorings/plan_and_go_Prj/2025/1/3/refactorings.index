@@ -1,0 +1,18 @@
+1736998260345	Delete element
+1736998263735	Delete element
+1736998424173	Delete element
+1737007419783	Delete elements
+1737008734993	Move 'index.jsp' to 'views'
+1737009226212	Delete element
+1737009238355	Delete element
+1737010992944	Rename package 'com.myspring.pro30.common.file'
+1737011002118	Rename package 'com.myspring.pro30.common.log'
+1737011664211	Rename package 'com.myspring.pro30.member.controller'
+1737011671009	Rename package 'com.myspring.pro30.member.dao'
+1737011681151	Rename package 'com.myspring.pro30.member.service'
+1737011691096	Rename package 'com.myspring.pro30.member.vo'
+1737012224953	Delete element
+1737013646688	Move 'index.jsp' to 'board'
+1737084591844	Move 'planForm.jsp' to 'planner'
+1737085493740	Rename compilation unit 'PlannerVO.java'
+1737094267122	Rename package 'com.plan_and_go.plan_and_go.Prj.common.interceptor'

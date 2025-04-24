@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<resultMap id="memResult" type="memberVO">
+		<result property="MEMBER_ID" column="MEMBER_ID" />
+		<result property="MEMBER_NAME" column="MEMBER_NAME" />
+		<result property="PASSWORD" column="PASSWORD" />
+		<result property="EMAIL" column="EMAIL" />
+		<result property="PHONE_NUMBER" column="PHONE_NUMBER" />
+		<result property="JOIN_DATE" column="JOIN_DATE" />
+		<result property="UPDATED_DATE" column="UPDATED_DATE" />
+		<result property="LEAVE_DATE" column="LEAVE_DATE" />
+		<result property="NICKNAME" column="NICKNAME" />
+	</resultMap>
+
+	<select id="selectAllMemberList" resultMap="memResult">
+      <![CDATA[
+         SELECT * FROM MEMBER
+      ]]>
+	</select>
+
+	<insert id="insertMember" parameterType="memberVO">
+		<![CDATA[
+		 INSERT INTO MEMBER(MEMBER_ID, MEMBER_NAME, PASSWORD, EMAIL, PHONE_NUMBER, JOIN_DATE, UPDATED_DATE, NICKNAME)
+		 VALUES(#{MEMBER_ID}, #{MEMBER_NAME}, #{PASSWORD}, #{EMAIL}, #{PHONE_NUMBER}, now(), now(), #{NICKNAME})
+		]]>
+	</insert>
+
+	<select id="checkUserID" resultType="boolean"
+		parameterType="String">
+		<![CDATA[
+        SELECT CASE 
+          WHEN EXISTS (
+              SELECT 1 
+              FROM MEMBER 
+              WHERE MEMBER_ID = #{MEMBER_ID}
+          ) 
+          THEN true 
+          ELSE false 
+      END AS result
+    ]]>
+	</select>
+
+	<select id="checkNickname" resultType="boolean"
+		parameterType="String">
+		<![CDATA[
+        SELECT CASE 
+          WHEN EXISTS (
+              SELECT 1 
+              FROM MEMBER 
+              WHERE NICKNAME = #{NICKNAME}
+          ) 
+          THEN true 
+          ELSE false 
+      END AS result
+    ]]>
+	</select>
+
+	<select id="findPassword" parameterType="memberVO"
+		resultType="string">
+    <![CDATA[
+        SELECT PASSWORD 
+        FROM MEMBER
+        WHERE MEMBER_ID = #{MEMBER_ID} 
+          AND MEMBER_NAME = #{MEMBER_NAME}
+    ]]>
+	</select>
+
+	<select id="checkUserIdAndName" parameterType="map"
+		resultType="int">
+    <![CDATA[
+        SELECT COUNT(*) 
+        FROM MEMBER 
+        WHERE MEMBER_ID = #{MEMBER_ID} 
+        AND MEMBER_NAME = #{MEMBER_NAME}
+    ]]>
+	</select>
+
+	<update id="updatePassword" parameterType="map" >
+		UPDATE MEMBER
+		SET PASSWORD = #{tempPassword}
+		WHERE MEMBER_ID = #{MEMBER_ID}
+	</update>
+
+	<select id="loginById" resultType="memberVO"
+		parameterType="memberVO">
+	<![CDATA[ 
+		SELECT * FROM MEMBER	
+		WHERE MEMBER_ID=#{MEMBER_ID} AND PASSWORD=#{PASSWORD}		
+	]]>
+	</select>
+</mapper>

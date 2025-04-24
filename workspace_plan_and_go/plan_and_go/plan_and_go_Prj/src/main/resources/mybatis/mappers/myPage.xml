@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mypage">
+
+    <!-- 회원 정보 조회 -->
+    <resultMap id="selectMember" type="memberVO">
+    
+        <result property="MEMBER_ID" column="MEMBER_ID" />
+        <result property="PASSWORD" column="PASSWORD" />
+        
+        <result property="MEMBER_NAME" column="MEMBER_NAME" />
+        <result property="EMAIL" column="EMAIL" />
+        <result property="PHONE_NUMBER" column="PHONE_NUMBER" />
+        <result property="NICKNAME" column="NICKNAME" />
+    </resultMap>
+
+    <!-- 방문한 여행지 조회 -->
+    <resultMap id="selectVisited" type="placeVO">
+        <result property="SCHEDULE_ID" column="SCHEDULE_ID" />
+        <result property="REGION_NAME" column="REGION_NAME" />
+        <result property="MEMBER_ID" column="MEMBER_ID" />
+        
+    </resultMap>
+
+    <!-- 사용자 일정 조회 -->
+    <resultMap id="selectSchedules" type="myPageVO">
+        <result property="SCHEDULE_ID" column="SCHEDULE_ID" />
+        <result property="SCHEDULE_NAME" column="SCHEDULE_NAME" />
+        <result property="START_DATE" column="START_DATE" />
+        <result property="END_DATE" column="END_DATE" />
+        <result property="GROUP_ID" column="GROUP_ID" />
+        <result property="GROUP_NAME" column="GROUP_NAME" />
+        <result property="NICKNAME" column="NICKNAME" />
+    </resultMap>
+
+    <!-- 활동 정보 조회 -->
+    <resultMap id="insertAct" type="activityVO">
+        <result property="ACTIVITY_NAME" column="ACTIVITY_NAME" />
+        <result property="ACTIVITY_TIME" column="ACTIVITY_TIME" />
+        <result property="EXPECTED_COST" column="EXPECTED_COST" />
+        <result property="ACTIVITY_DATE" column="ACTIVITY_DATE" />
+        <result property="ACTIVITY_ID" column="ACTIVITY_ID" />
+        <result property="SCHEDULE_ID" column="SCHEDULE_ID" />
+        <result property="PLACE_ID" column="PLACE_ID" />
+        <result property="ACTUAL_COST" column="ACTUAL_COST" />
+    </resultMap>
+
+    <!-- 일정 추가 정보 조회 -->
+    <resultMap id="insertSche" type="myPageVO">
+        <result property="SCHEDULE_NAME" column="SCHEDULE_NAME" />
+        <result property="START_DATE" column="START_DATE" />
+        <result property="END_DATE" column="END_DATE" />
+        <result property="GROUP_ID" column="GROUP_ID" />
+        <result property="SCHEDULE_ID" column="SCHEDULE_ID" />
+    </resultMap>
+
+    <!-- 회원 정보 조회 -->
+    <select id="selectMemberDetails" parameterType="String" resultMap="selectMember">
+        SELECT MEMBER_ID, MEMBER_NAME, EMAIL, PHONE_NUMBER, NICKNAME
+        FROM MEMBER
+        WHERE MEMBER_ID = #{MEMBER_ID}
+    </select>
+
+    <!-- 방문한 여행지 조회 -->
+    <select id="selectVisitedPlaces" parameterType="String" resultMap="selectVisited">
+  	SELECT
+	DISTINCT sc.SCHEDULE_ID, sc.REGION_NAME
+	FROM MEMBER m
+	JOIN GROUP_JOIN gj
+	ON m.MEMBER_ID = gj.MEMBER_ID
+	JOIN GROUP_TB gt
+	ON gj.GROUP_ID = gt.GROUP_ID
+	JOIN SCHEDULE sc
+	ON gt.GROUP_ID = sc.GROUP_ID
+	WHERE m.MEMBER_ID = #{MEMBER_ID};
+    </select>
+
+    <!-- 사용자 일정 조회 -->
+    <select id="selectSchedulesByMemberId" parameterType="String" resultMap="selectSchedules">
+        SELECT m.MEMBER_ID, s.SCHEDULE_ID, s.SCHEDULE_NAME, s.START_DATE, s.END_DATE, s.GROUP_ID, gt.GROUP_NAME
+		FROM MEMBER as m
+		JOIN GROUP_JOIN as gj
+		ON m.MEMBER_ID = gj.MEMBER_ID
+		JOIN GROUP_TB as gt
+		ON gj.GROUP_ID = gt.GROUP_ID
+		JOIN SCHEDULE as s
+		ON gt.GROUP_ID  = s.GROUP_ID
+		WHERE m.MEMBER_ID = #{MEMBER_ID};
+    </select>
+    
+    <select id="selectMember1" parameterType="String" resultType="Integer"> 
+    	SELECT COUNT(*) FROM MEMBER WHERE NICKNAME = #{NICKNAME}
+    </select>
+    
+    <select id="selectMember2" parameterType="myPageVO" resultType="Integer"> 
+    	SELECT COUNT(*) FROM GROUP_JOIN 
+    	WHERE MEMBER_ID = (SELET MEMBER_ID FROM MEMBER WHERE NICKNAME = #{NICKNAME})
+    	AND GROUP_ID = #{GROUP_ID}
+    </select>
+    
+    <insert id="shareSchedule" parameterType="myPageVO"> 
+    	INSERT INTO GROUP_JOIN VALUES ((SELECT MEMBER_ID FROM MEMBER WHERE NICKNAME = #{NICKNAME}), #{GROUP_ID});
+    </insert>
+
+    <!-- 일정 삭제 -->
+    <delete id="deleteSchedule" parameterType="int">
+        DELETE FROM SCHEDULE
+        WHERE SCHEDULE_ID = #{scheduleId}
+    </delete>
+    
+    <delete id="deleteActivity" parameterType="int">
+        DELETE FROM ACTIVITY
+        WHERE SCHEDULE_ID = #{scheduleId}
+    </delete>
+    
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM REVIEW
+        WHERE ACTIVITY_ID = (SELECT ACTIVITY_ID FROM SCHEDULE WHERE SCHEDULE_ID = #{SCHEDULE_ID})
+    </delete>
+
+
+
+		<!-- 회원 정보 조회 -->
+	    <select id="getMemberById" parameterType="String" resultType="memberVO">
+	        SELECT MEMBER_ID, PASSWORD FROM MEMBER WHERE MEMBER_ID = #{MEMBER_ID}
+	    </select>
+	
+	    <!-- 비밀번호 변경 -->
+	    <update id="updatePassword" parameterType="memberVO">
+	        UPDATE MEMBER
+	        SET PASSWORD = #{PASSWORD}
+	        WHERE MEMBER_ID = #{MEMBER_ID}
+	    </update>
+	    <!-- 휴대전화 번호 변경  -->
+	      <update id="updatePhoneNumber" parameterType="memberVO">
+        UPDATE MEMBER
+        SET PHONE_NUMBER = #{PHONE_NUMBER}
+        WHERE MEMBER_ID = #{MEMBER_ID}
+    </update>
+    
+       <!-- 이메일 변경 -->
+    <update id="updateEmail" parameterType="memberVO">
+        UPDATE MEMBER
+        SET EMAIL = #{EMAIL}
+        WHERE MEMBER_ID = #{MEMBER_ID}
+    </update>
+    
+        <!-- 닉네임 변경 -->
+    <update id="updateNickname" parameterType="memberVO">
+        UPDATE MEMBER
+        SET NICKNAME = #{NICKNAME}
+        WHERE MEMBER_ID = #{MEMBER_ID}
+    </update>
+
+</mapper>

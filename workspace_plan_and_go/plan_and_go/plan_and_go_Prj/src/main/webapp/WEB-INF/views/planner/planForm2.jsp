@@ -1,0 +1,680 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false"%>
+
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="loggedInUser" value="${sessionScope.member}" />
+<!-- 로그인한 사용자 정보 확인 -->
+<%
+	request.setCharacterEncoding("UTF-8");
+String SCHEDULE_ID = request.getParameter("SCHEDULE_ID");
+String group_id = request.getParameter("group_id");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>여행 일정 플래너</title>
+<link rel="stylesheet" type="text/css"
+	href="${contextPath}/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body id="planForm2" style="background-image: url('${contextPath}/resources/image/plan.jpeg'); background-size: cover; background-position: center;">
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<a class="navbar-brand" href="${contextPath}/board/main.do"> 
+		<img src="${contextPath}/resources/image/plan_and_go_logo.jpg" alt="Plan&Go 로고" class="logo">
+		</a> 
+		<div class="ml-auto">
+			<%-- <a class="btn btn-outline-primary"
+						href="${contextPath}/member/logout.do">로그아웃</a> --%>
+						
+			<form id="planFormLogout" action="${contextPath}/member/logout.do" method="GET">
+				<input type="hidden" name="MEMBER_ID" value="${loggedInUser.MEMBER_ID}">
+				<button class="btn btn-outline-primary">로그아웃</button>
+			</form>
+			<!-- 로그아웃 링크 -->
+			
+			<form id="planFormLogout" action="${contextPath}/review/list.do" method="POST">
+				<input type="hidden" name="MEMBER_ID" value="${loggedInUser.MEMBER_ID}">
+				<button class="btn btn-outline-secondary">리뷰 게시판</button>
+			</form>
+			<%-- <a class="btn btn-outline-secondary"
+			href="${contextPath}/review/list.do">리뷰 게시판</a> --%>
+			
+			<form id="planFormMyPage2" action="${contextPath}/board/myPage.do" method="POST">
+				<input type="hidden" name="MEMBER_ID" value="${loggedInUser.MEMBER_ID}">
+				<button class="btn btn-outline-success">마이페이지</button>
+			</form>
+						
+			<!-- <a class="btn btn-outline-success" href="#" onclick="postToMyPage(); return false;">마이페이지</a> -->
+			<!-- myPage POST 요청으로 수정 -->
+			
+		</div>
+	</nav>
+	
+	<div class="container mt-5">
+		<h1>여행 일정 플래너</h1>
+		<form
+			action="${contextPath}/planner/clearSession.do?MEMBER_ID=${loggedInUser.MEMBER_ID}"
+			method="POST">
+			<!-- 도시 선택 -->
+			<div class="mb-3">
+				<label for="region" class="form-label">여행 도시 선택</label> <select
+					id="region" name="region" class="form-select" required>
+					<option value="${region}">${region}</option>
+				</select>
+			</div>
+
+			<!-- 날짜 목록 -->
+			<div class="list-group mt-4">
+				<c:forEach items="${dateList}" var="dl">
+					<button type="button"
+						class="list-group-item list-group-item-action"
+						data-bs-toggle="modal" data-bs-target="#scheduleModal"
+						onclick="openScheduleModal('${dl}')">${dl}</button>
+				</c:forEach>
+			</div>
+
+			<!-- 일정 생성 버튼 -->
+
+		</form>
+
+		<!-- 날짜 선택 드롭다운 -->
+<div class="date-filter-container">
+    <label class="date-label" for="filterDate">날짜 선택</label>
+    <select id="filterDate" class="form-select date-select" onchange="filterSchedule()">
+        <option value="">전체 보기</option>
+        <c:set var="uniqueDates" value="" />
+        <c:forEach var="activityFilter" items="${activityList}">
+            <c:set var="formattedDate">
+                <fmt:formatDate value='${activityFilter.ACTIVITY_DATE}' pattern='yyyy-MM-dd' />
+            </c:set>
+            <c:if test="${not fn:contains(uniqueDates, formattedDate)}">
+                <option value="${formattedDate}">${formattedDate}</option>
+                <c:set var="uniqueDates" value="${uniqueDates},${formattedDate}" />
+            </c:if>
+        </c:forEach>
+    </select>
+</div>
+
+
+
+		<!-- 저장된 일정 목록 -->
+		<div class="schedule-container">
+			<h3 class="mt-4">저장된 일정</h3>
+			<form id="planFormMyPage2" action="${contextPath}/board/myPage.do" method="POST">
+				<input type="hidden" name="MEMBER_ID" value="${loggedInUser.MEMBER_ID}">
+				<button class="mypage-btn">마이페이지</button>
+			</form>
+			<%-- <a href="${contextPath}/board/myPage.do?MEMBER_ID=${loggedInUser.MEMBER_ID}" class="mypage-btn">마이페이지</a> --%>
+		</div>
+		<div id="scheduleList"></div>
+		<table border="1" align="center" width="80%" id="scheduleTable">
+			<thead>
+				<tr align="center">
+					<td><b>날짜</b></td>
+					<td><b>시간</b></td>
+					<td><b>일정 제목</b></td>
+					<td><b>방문 장소</b></td>
+					<td><b>예상 비용</b></td>
+					<td><b>실제 비용</b></td>
+					<td><b>비고</b></td>
+					<td><b>수정</b></td>
+					<td><b>삭제</b></td>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="activity" items="${activityList}">
+					<tr align="center"
+						data-date="<fmt:formatDate value='${activity.ACTIVITY_DATE}' pattern='yyyy-MM-dd' />">
+						<td><fmt:formatDate value="${activity.ACTIVITY_DATE}"
+								pattern="yyyy-MM-dd" /></td>
+						<td>${activity.ACTIVITY_TIME}</td>
+						<td>${activity.ACTIVITY_NAME}</td>
+						<td>${activity.PLACE_NAME}</td>
+						<td>${activity.EXPECTED_COST}</td>
+						<td>${activity.ACTUAL_COST}</td>
+						<td>${activity.COMMENT}</td>
+						<td><button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#scheduleUpdateModal"
+								onclick="openUpdateScheduleModal('<fmt:formatDate value="${activity.ACTIVITY_DATE}" pattern="yyyy-MM-dd" />', 
+		                        '${activity.ACTIVITY_TIME}', '${activity.ACTIVITY_NAME}', 
+		                        '${activity.PLACE_NAME}', '${activity.EXPECTED_COST}', 
+		                        '${activity.ACTUAL_COST}', '${activity.ACTIVITY_ID}',
+		                        '${activity.COMMENT}')">수정하기</button>
+						</td>
+						<td>
+							<form action="${contextPath}/planner/removeActivity.do"
+								method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+								<input type="hidden" name="region" value="${region}">
+								<input type="hidden" name="start_date" value="${start_date}">
+								<input type="hidden" name="end_date" value="${end_date}">
+								<input type="hidden" name="group_id" value="${group_id}">
+								<input type="hidden" name="schedule_id" value="${schedule_id}">
+								<input type="hidden" name="ACTIVITY_ID"
+									value="${activity.ACTIVITY_ID}">
+								<button type="submit" class="btn btn-danger">삭제하기</button>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+
+
+	</div>
+
+	<!-- 일정 모달 -->
+	<div class="modal fade" id="scheduleModal" tabindex="-1"
+		aria-labelledby="scheduleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="scheduleModalLabel">일정 입력</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="${contextPath}/planner/saveActivity.do" method="POST">
+						<input type="hidden" id="region" name="region" value="${region}" />
+						<input type="hidden" name="SCHEDULE_ID" value="${schedule_id}" />
+						<input type="hidden" name="group_id" value="${group_id}" /> <input
+							type="hidden" name="start_date" value="${start_date}" /> <input
+							type="hidden" name="end_date" value="${end_date}" />
+
+						<!-- 선택된 날짜 -->
+						<div class="mb-3">
+							<label for="ACTIVITY_DATE" class="form-label">선택된 날짜</label> <input
+								type="text" id="ACTIVITY_DATE" name="ACTIVITY_DATE"
+								class="form-control" readonly>
+						</div>
+
+						<!-- 선택된 시간 -->
+						<div class="mb-3">
+							<label for="scheduleTime" class="form-label">시간</label> <input
+								type="time" id="ACTIVITY_TIME" name="ACTIVITY_TIME"
+								class="form-control" required>
+						</div>
+
+						<!-- 일정 제목 -->
+						<div class="mb-3">
+							<label for="scheduleTitle" class="form-label">일정 제목</label> <input
+								type="text" id="ACTIVITY_NAME" name="ACTIVITY_NAME"
+								class="form-control" required>
+						</div>
+
+						<!-- 방문 장소 선택 -->
+						<div class="mb-3">
+							<label for="schedulePlace" class="form-label">방문 장소 선택</label>
+							<div class="d-flex">
+								<input type="text" id="PLACE_NAME" name="PLACE_NAME"
+									class="form-control" placeholder="선택된 장소" readonly required>
+								<button type="button" class="btn btn-secondary ms-2"
+									data-bs-toggle="modal" data-bs-target="#placeListModal">장소
+									선택</button>
+							</div>
+						</div>
+
+						<!-- 예상 비용 -->
+						<div class="mb-3">
+							<label for="estimatedCost" class="form-label">예상 비용</label> <input
+								type="number" id="EXPECTED_COST" name="EXPECTED_COST"
+								class="form-control" placeholder="예상 비용을 입력해주세요" required>
+						</div>
+
+						<!-- 실제 비용 -->
+						<div class="mb-3">
+							<label for="actualCost" class="form-label">실제 비용</label> <input
+								type="number" id="ACTUAL_COST" name="ACTUAL_COST"
+								class="form-control" placeholder="실제 비용을 입력해주세요">
+						</div>
+
+						<!-- 비고 -->
+						<div class="mb-3">
+							<label for="comment" class="form-label">비고</label>
+							<textarea id="COMMENT" name="COMMENT" class="form-control"
+								placeholder="50자 까지 입력 가능합니다." rows="4" maxlength="50"></textarea>
+						</div>
+
+						<button type="submit" class="btn btn-primary">일정 저장</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 일정 수정 모달 -->
+	<div class="modal fade" id="scheduleUpdateModal" tabindex="-1"
+		aria-labelledby="scheduleUpdateModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="scheduleUpdateModalLabel">일정 수정</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="${contextPath}/planner/updateActivity.do"
+						method="POST">
+						<input type="hidden" id="region" name="region" value="${region}" />
+						<input type="hidden" name="SCHEDULE_ID" value="${schedule_id}" />
+						<input type="hidden" name="group_id" value="${group_id}" /> <input
+							type="hidden" name="start_date" value="${start_date}" /> <input
+							type="hidden" name="end_date" value="${end_date}" /> <input
+							type="hidden" id="ACTIVITY_ID" name="ACTIVITY_ID" />
+
+						<!-- 선택된 날짜 -->
+						<div class="mb-3">
+							<label for="ACTIVITY_DATE" class="form-label">선택된 날짜:</label> <input
+								type="text" id="UPDATE_ACTIVITY_DATE"
+								name="UPDATE_ACTIVITY_DATE" class="form-control"
+								placeholder="YYYY-MM-DD" required>
+						</div>
+
+						<!-- 선택된 시간 -->
+						<div class="mb-3">
+							<label for="scheduleTime" class="form-label">시간:</label> <input
+								type="time" id="UPDATE_ACTIVITY_TIME"
+								name="UPDATE_ACTIVITY_TIME" class="form-control" required>
+						</div>
+
+						<!-- 일정 제목 -->
+						<div class="mb-3">
+							<label for="scheduleTitle" class="form-label">일정 제목:</label> <input
+								type="text" id="UPDATE_ACTIVITY_NAME"
+								name="UPDATE_ACTIVITY_NAME" class="form-control" required>
+						</div>
+
+						<!-- 방문 장소 선택 -->
+						<div class="mb-3">
+							<label for="schedulePlace" class="form-label">방문 장소 선택:</label>
+							<div class="d-flex">
+								<input type="text" id="UPDATE_PLACE_NAME"
+									name="UPDATE_PLACE_NAME" class="form-control"
+									placeholder="선택된 장소" readonly required>
+								<button type="button" class="btn btn-secondary ms-2"
+									data-bs-toggle="modal" data-bs-target="#UpdatePlaceListModal">장소
+									선택</button>
+							</div>
+						</div>
+
+						<!-- 예상 비용 -->
+						<div class="mb-3">
+							<label for="estimatedCost" class="form-label">예상 비용:</label> <input
+								type="number" id="UPDATE_EXPECTED_COST"
+								name="UPDATE_EXPECTED_COST" class="form-control"
+								placeholder="예상 비용을 입력해주세요" required>
+						</div>
+
+						<!-- 실제 비용 -->
+						<div class="mb-3">
+							<label for="actualCost" class="form-label">실제 비용:</label> <input
+								type="number" id="UPDATE_ACTUAL_COST" name="UPDATE_ACTUAL_COST"
+								class="form-control" placeholder="실제 비용을 입력해주세요">
+						</div>
+
+						<!-- 비고 -->
+						<div class="mb-3">
+							<label for="comment" class="form-label">비고:</label>
+							<textarea id="UPDATE_COMMENT" name="UPDATE_COMMENT"
+								class="form-control" placeholder="50자 까지 입력 가능합니다." rows="4"
+								maxlength="50"></textarea>
+						</div>
+
+						<button type="submit" class="btn btn-primary">일정 수정</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 장소 리스트 모달 -->
+	<div class="modal fade" id="placeListModal" tabindex="-1"
+		aria-labelledby="placeListModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="placeListModalLabel">장소 리스트</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<!-- 🔹 검색 입력창 추가 -->
+					<input type="text" id="placeSearchInput" class="form-control mb-3"
+						placeholder="장소 검색..." onkeyup="filterPlaces()">
+
+					<!-- 카테고리 버튼 -->
+					<div class="mb-3">
+						<button class="btn btn-primary category-btn" data-category="all"
+							data-modal="list">전체</button>
+						<button class="btn btn-secondary category-btn" data-category="식당"
+							data-modal="list">식당</button>
+						<button class="btn btn-success category-btn" data-category="관광지"
+							data-modal="list">관광지</button>
+						<button class="btn btn-warning category-btn" data-category="숙소"
+							data-modal="list">숙소</button>
+					</div>
+
+					<!-- 장소 리스트 -->
+					<div class="row" id="placeContainer">
+					
+						<c:forEach items="${place}" var="placeList">
+							<div class="mb-3 place-item"
+								data-category="${placeList.category}">
+								<img
+									src="${contextPath}/resources/plan_and_go_image/place_image/${placeList.image}.jpg"
+									alt="${placeList.name}" class="img-fluid"
+									style="cursor: pointer;"
+									onclick="showPlaceDetails('${placeList.name}', '${placeList.image}', '${placeList.info}')">
+								<h6>${placeList.name}</h6>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 장소 수정 모달 -->
+	<div class="modal fade" id="UpdatePlaceListModal" tabindex="-1"
+		aria-labelledby="UpdatePlaceListModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="UpdatePlaceListModalLabel">장소 리스트</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<!-- 🔹 검색 입력창 추가 -->
+					<input type="text" id="UpdatePlaceSearchInput"
+						class="form-control mb-3" placeholder="장소 검색..."
+						onkeyup="UpdateFilterPlaces()">
+
+					<!-- 카테고리 버튼 -->
+					<div class="mb-3">
+						<button class="btn btn-primary category-btn" data-category="all"
+							data-modal="update">전체</button>
+						<button class="btn btn-secondary category-btn" data-category="식당"
+							data-modal="update">식당</button>
+						<button class="btn btn-success category-btn" data-category="관광지"
+							data-modal="update">관광지</button>
+						<button class="btn btn-warning category-btn" data-category="숙소"
+							data-modal="update">숙소</button>
+					</div>
+
+					<!-- 장소 리스트 -->
+					<div class="row" id="updatePlaceContainer">
+						<c:forEach items="${place}" var="UpdatePlaceList">
+							<div class="mb-3 update-place-item"
+								data-category="${UpdatePlaceList.category}">
+								<img
+									src="${contextPath}/resources/plan_and_go_image/place_image/${UpdatePlaceList.image}.jpg"
+									alt="${UpdatePlaceList.name}" class="img-fluid"
+									style="cursor: pointer;"
+									onclick="UpdateShowPlaceDetails('${UpdatePlaceList.name}', '${UpdatePlaceList.image}', '${UpdatePlaceList.info}')">
+								<h6>${UpdatePlaceList.name}</h6>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 장소 상세 정보 모달 -->
+	<div class="modal fade" id="placeModal" tabindex="-1"
+		aria-labelledby="placeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="placeModalLabel">장소 상세 정보</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<!-- 장소 상세 내용 -->
+					<img id="detailImage" src="" alt="" class="img-fluid mb-3">
+					<h5 id="detailName"></h5>
+					<p id="detailInfo"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="selectPlace()">선택하기</button>
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 장소 수정 상세 정보 모달 -->
+	<div class="modal fade" id="UpdatePlaceModal" tabindex="-1"
+		aria-labelledby="UpdatePlaceModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="UpdatePlaceModalLabel">장소 상세 정보</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<!-- 장소 상세 내용 -->
+					<img id="updateDetailImage" src="" alt="" class="img-fluid mb-3">
+					<h5 id="updateDetailName"></h5>
+					<p id="updateDetailInfo"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="selectUpdatePlace()">선택하기</button>
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		let selectedPlaceName = '';
+		let selectedDate = ""; // 선택된 날짜 저장 변수
+		let datePlaceMap = {}; // 날짜별로 선택된 장소를 저장할 객체
+		let scheduleList = []; // 저장된 일정 목록
+
+		const urlParams = new URLSearchParams(window.location.search);
+		if (urlParams.get("error") === "true") {
+			alert("일정 저장 중 오류가 발생했습니다.");
+		}
+		
+		document.addEventListener("DOMContentLoaded", function () {
+		    let selectedCategoryList = "all"; // 장소 리스트 모달 기본 카테고리
+		    let selectedCategoryUpdate = "all"; // 장소 수정 모달 기본 카테고리
+
+		    // 카테고리 버튼 클릭 이벤트 추가
+		    document.querySelectorAll(".category-btn").forEach(button => {
+		        button.addEventListener("click", function () {
+		            let category = this.getAttribute("data-category");
+		            let modalType = this.getAttribute("data-modal");
+
+		            if (modalType === "list") {
+		                selectedCategoryList = category; // 선택된 카테고리 저장
+		                filterPlaces(selectedCategoryList);
+		            } else if (modalType === "update") {
+		                selectedCategoryUpdate = category; // 선택된 카테고리 저장
+		                UpdateFilterPlaces(selectedCategoryUpdate);
+		            }
+		        });
+		    });
+
+		    // 장소 리스트 모달 검색 이벤트
+		    document.getElementById("placeSearchInput").addEventListener("keyup", function () {
+		        filterPlaces(selectedCategoryList);
+		    });
+
+		    // 장소 수정 모달 검색 이벤트
+		    document.getElementById("UpdatePlaceSearchInput").addEventListener("keyup", function () {
+		        UpdateFilterPlaces(selectedCategoryUpdate);
+		    });
+		});
+		
+		function filterSchedule() {
+		    var selectedDate = document.getElementById("filterDate").value;
+		    var rows = document.querySelectorAll("#scheduleTable tbody tr"); // 일정 목록의 각 행 가져오기
+
+		    rows.forEach(function(row) {
+		        var activityDate = row.getAttribute("data-date"); // 각 행의 날짜 값 가져오기
+		        if (selectedDate === "" || activityDate === selectedDate) {
+		            row.style.display = ""; // 선택한 날짜와 같거나 전체 보기면 표시
+		        } else {
+		            row.style.display = "none"; // 선택한 날짜와 다르면 숨김
+		        }
+		    });
+		}
+		
+		// 날짜 버튼 클릭 시 모달에 날짜 전달
+		function openScheduleModal(date) {
+
+			selectedDate = date; // 선택한 날짜 저장
+			console.log(selectedDate);
+			document.getElementById("ACTIVITY_DATE").value = selectedDate; // 모달의 날짜 입력 필드에 날짜 표시
+			// 선택된 날짜에 해당하는 장소가 이미 선택되어 있으면, 해당 장소를 표시
+			const placeName = datePlaceMap[selectedDate] || "";
+			document.getElementById("PLACE_NAME").value = placeName;
+		}
+		
+		function openUpdateScheduleModal(date, time, act_name, plc_name, exp_cost, act_cost, act_id, comment) {
+
+			document.getElementById("UPDATE_ACTIVITY_DATE").value = date; // 모달의 날짜 입력 필드에 날짜 표시
+			document.getElementById("UPDATE_ACTIVITY_TIME").value = time;
+			document.getElementById("UPDATE_ACTIVITY_NAME").value = act_name;
+			document.getElementById("UPDATE_PLACE_NAME").value = plc_name;
+			document.getElementById("UPDATE_EXPECTED_COST").value = exp_cost;
+			document.getElementById("UPDATE_ACTUAL_COST").value = act_cost;
+			document.getElementById("ACTIVITY_ID").value = act_id;
+			document.getElementById("UPDATE_COMMENT").value = comment;
+		}
+		
+		function filterPlaces(category = "all") {
+		    const input = document.getElementById("placeSearchInput").value.toLowerCase();
+		    let places = document.querySelectorAll("#placeContainer .place-item");
+
+		    places.forEach(place => {
+		        let placeCategory = place.getAttribute("data-category");
+		        let placeName = place.querySelector("h6").textContent.toLowerCase();
+
+		        let categoryMatch = (category === "all" || placeCategory === category);
+		        let searchMatch = placeName.includes(input);
+
+		        place.style.display = (categoryMatch && searchMatch) ? "block" : "none";
+		    });
+		}
+		
+		function UpdateFilterPlaces(category = "all") {
+		    const input = document.getElementById("UpdatePlaceSearchInput").value.toLowerCase();
+		    let places = document.querySelectorAll("#updatePlaceContainer .update-place-item");
+
+		    places.forEach(place => {
+		        let placeCategory = place.getAttribute("data-category");
+		        let placeName = place.querySelector("h6").textContent.toLowerCase();
+
+		        let categoryMatch = (category === "all" || placeCategory === category);
+		        let searchMatch = placeName.includes(input);
+
+		        place.style.display = (categoryMatch && searchMatch) ? "block" : "none";
+		    });
+		}
+
+
+		// 장소 상세 정보 모달에 표시
+		function showPlaceDetails(name, image, info) {
+			let imagePath = image.startsWith("http") ? image : `${contextPath}/resources/plan_and_go_image/place_image/` + image + `.jpg`;
+			document.getElementById("detailName").textContent = name;
+			document.getElementById("detailImage").src = imagePath;
+			document.getElementById("detailInfo").textContent = info;
+			selectedPlaceName = name;
+
+			// 장소 상세 정보 모달 열기
+			const placeModal = new bootstrap.Modal(document
+					.getElementById('placeModal'));
+			placeModal.show();
+		}
+		
+		function UpdateShowPlaceDetails(name, image, info) {
+			let imagePath = image.startsWith("http") ? image : `${contextPath}/resources/plan_and_go_image/place_image/` + image + `.jpg`;
+			document.getElementById("updateDetailName").textContent = name;
+			document.getElementById("updateDetailImage").src = imagePath;
+			document.getElementById("updateDetailInfo").textContent = info;
+			selectedPlaceName = name;
+
+			// 장소 상세 정보 모달 열기
+			const placeModal = new bootstrap.Modal(document
+					.getElementById('UpdatePlaceModal'));
+			placeModal.show();
+		}
+
+		// 장소 선택 함수
+		function selectPlace() {
+			if (!selectedPlaceName) {
+				alert("장소를 선택해주세요.");
+				return;
+			}
+
+			// 선택된 장소를 일정 모달에 반영
+			document.getElementById("PLACE_NAME").value = selectedPlaceName;
+
+			// 장소 리스트 모달 닫기
+			const placeModal = bootstrap.Modal.getInstance(document
+					.getElementById('placeModal'));
+			const placeListModal = bootstrap.Modal.getInstance(document
+					.getElementById('placeListModal'));
+
+			if (placeModal)
+				placeModal.hide();
+			if (placeListModal)
+				placeListModal.hide();
+
+			// 일정 입력 모달 열기
+			const scheduleModal = new bootstrap.Modal(document
+					.getElementById('scheduleModal'));
+			scheduleModal.show();
+		}
+		
+		// 장소 수정 함수
+		function selectUpdatePlace() {
+			if (!selectedPlaceName) {
+				alert("장소를 선택해주세요.");
+				return;
+			}
+
+			// 선택된 장소를 일정 모달에 반영
+			document.getElementById("UPDATE_PLACE_NAME").value = selectedPlaceName;
+
+			// 장소 리스트 모달 닫기
+			const placeModal = bootstrap.Modal.getInstance(document
+					.getElementById('UpdatePlaceModal'));
+			const placeListModal = bootstrap.Modal.getInstance(document
+					.getElementById('UpdatePlaceListModal'));
+
+			if (placeModal)
+				placeModal.hide();
+			if (placeListModal)
+				placeListModal.hide();
+
+			// 일정 입력 모달 열기
+			const scheduleModal = new bootstrap.Modal(document
+					.getElementById('scheduleUpdateModal'));
+			scheduleModal.show();
+		}
+	</script>
+
+</body>
+</html>

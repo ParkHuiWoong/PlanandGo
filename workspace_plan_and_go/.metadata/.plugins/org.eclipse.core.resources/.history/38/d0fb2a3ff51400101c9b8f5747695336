@@ -1,0 +1,181 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%@ page isELIgnored="false"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</head>
+<body id="myPage" style="background-image: url('${contextPath}/resources/image/myPage.jpg'); background-size: cover; background-position: center;">
+	<!-- 네비게이션 바 -->
+	<nav>
+		<a href="${contextPath}/board/main.do" class="logo">Plan&Go</a><div class="nav-menu">
+        <a href="${contextPath}/review/list.do">리뷰게시판</a>
+        <a href="${contextPath}/member/logout.do">로그아웃</a>
+    </div>
+		</div>
+	</nav>
+	<!-- 컨테이너 -->
+	<div class="container">
+
+		<!-- 좌측 영역 (프로필 & 다녀온 여행지) -->
+		<div class="left-section">
+
+			<!-- 프로필 섹션 -->
+			<c:if test="${not empty member}">
+				<section>
+					<h2>프로필 정보</h2>
+
+					<p>
+						<strong>닉네임:</strong> ${member.NICKNAME}
+					<form action="${contextPath}/board/updateNickname.do" method="get"
+						style="display: inline;">
+						<input type="hidden" name="memberId" value="${member.MEMBER_ID}">
+						<button type="submit">수정</button>
+					</form>
+					</p>
+
+					<p>
+						<strong>이름:</strong> ${member.MEMBER_NAME}
+					</p>
+
+					<p>
+						<strong>핸드폰 번호:</strong> ${member.PHONE_NUMBER}
+					<form action="${contextPath}/board/updatePhoneNumber.do"
+						method="get" style="display: inline;">
+						<input type="hidden" name="memberId" value="${member.MEMBER_ID}">
+						<button type="submit">수정</button>
+					</form>
+					</p>
+
+					<p>
+						<strong>이메일:</strong> ${member.EMAIL}
+					<form action="${contextPath}/board/updateEmail.do" method="get"
+						style="display: inline;">
+						<input type="hidden" name="memberId" value="${member.MEMBER_ID}">
+						<button type="submit">수정</button>
+					</form>
+					</p>
+
+					<p>
+						
+					<form action="${contextPath}/board/updatePassword.do" method="post"
+						style="display: inline;">
+						<input type="hidden" name="memberId" value="${member.MEMBER_ID}">
+						<button type="submit">비밀번호 수정</button>
+					</form>
+					</p>
+
+
+				</section>
+			</c:if>
+			<!-- 다녀온 여행지 섹션 -->
+			<section>
+				<h2>지금까지 다녀온 여행지</h2>
+				<ul>
+					<c:forEach var="place" items="${visitedPlaces}">
+						<li>${place.REGION_NAME}</li>
+					</c:forEach>
+				</ul>
+			</section>
+		</div>
+
+		<!-- 내 계획 섹션 -->
+		<div class="right-section">
+			<section>
+				<h2>내 계획</h2>
+				<ul>
+					<c:forEach var="schedule" items="${schedules}">
+						<li><strong>여행 이름 :</strong> ${schedule.SCHEDULE_NAME} <br>
+							<strong>기간 :</strong> ${schedule.START_DATE} ~
+							${schedule.END_DATE}
+							<div class="btn-group">
+								<button type="button" data-bs-toggle="modal"
+									data-bs-target="#shareScheduleModal"
+									onclick="openShareShedule('${schedule.GROUP_NAME}', '${schedule.GROUP_ID}')">공유</button>
+								<form action="${contextPath}/planner/updateSchedule.do"
+									method="post">
+									<input type="hidden" name="scheduleId"
+										value="${schedule.SCHEDULE_ID}">
+									<button type="submit">수정</button>
+								</form>
+								<form action="${contextPath}/board/deleteSchedule.do"
+									method="post" onsubmit="return confirmDelete();">
+									<input type="hidden" name="scheduleId"
+										value="${schedule.SCHEDULE_ID}"> <input type="hidden"
+										name="MEMBER_ID" value="${member.MEMBER_ID}">
+									<button type="submit">삭제</button>
+								</form>
+							</div></li>
+					</c:forEach>
+				</ul>
+			</section>
+		</div>
+	</div>
+
+	<!-- 일정 공유 모달 -->
+	<div class="modal fade" id="shareScheduleModal" tabindex="-1"
+		aria-labelledby="shareScheduleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="shareScheduleModalLabel">일정 공유</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="${contextPath}/board/shareSchedule.do" method="post">
+						<input type="hidden" name="MEMBER_ID" value="${member.MEMBER_ID}">
+						<input type="hidden" id="GROUP_ID" name="GROUP_ID" />
+
+						<!-- 선택된 일정 -->
+						<div class="mb-3">
+							<label for="GROUP_NAME" class="form-label">일정 이름 :</label> <input
+								type="text" id="GROUP_NAME" name="GROUP_NAME"
+								class="form-control" readonly>
+						</div>
+						<div class="mb-3">
+							<label for="NICKNAME" class="form-label">공유받는 회원 닉네임 :</label> <input
+								type="text" id="NICKNAME" name="NICKNAME" class="form-control">
+						</div>
+
+						<button type="submit" class="btn btn-primary">일정 공유</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<c:if test="${not empty message}">
+		<script>
+			alert("${message}");
+		</script>
+	</c:if>
+
+	<script>
+		function confirmDelete() {
+			return confirm("정말로 삭제하시겠습니까?");
+		}
+
+		function openShareShedule(group_name, group_id) {
+
+			console.log(group_name, group_id);
+			document.getElementById("GROUP_NAME").value = group_name;
+			document.getElementById("GROUP_ID").value = group_id;
+
+		}
+	</script>
+</body>
+</html>

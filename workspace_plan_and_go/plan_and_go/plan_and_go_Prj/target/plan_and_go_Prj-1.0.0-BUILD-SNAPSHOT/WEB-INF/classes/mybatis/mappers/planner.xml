@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.planner">
+	<resultMap id="scheduleResult" type="scheduleVO">
+		<result property="id" column="schedule_id" />
+        <result property="name" column="schedule_name" />
+        <result property="start_date" column="start_date" />
+        <result property="end_date" column="end_date" />
+        <result property="created_date" column="created_date" />
+        <result property="updated_date" column="updated_date" />
+        <result property="group_id" column="group_id" />
+	</resultMap> 
+	<resultMap id="activityResult" type="activityVO">
+		<result property="name" column="activity_name" />
+        <result property="time" column="activity_time" />
+        <result property="exp_cost" column="expected_cost" />
+        <result property="date" column="activity_date" />
+        <result property="act_id" column="activity_id" />
+        <result property="sch_id" column="schedule_id" />
+        <result property="plc_id" column="place_id" />
+        <result property="act_cost" column="actual_cost" />
+	</resultMap> 
+	<resultMap id="placeResult" type="placeVO">
+		<result property="id" column="place_id" />
+        <result property="name" column="place_name" />
+        <result property="category" column="category" />
+        <result property="info" column="place_info" />
+        <result property="region" column="region" />
+        <result property="address" column="address" />
+        <result property="image" column="place_image" />
+	</resultMap> 
+
+	<select id="selectRegionList" resultMap="placeResult">
+      <![CDATA[
+         select region from place
+      ]]>
+	</select>
+	
+	<select id="selectPlaceList" resultMap="placeResult">
+      <![CDATA[
+         select * from place where region = #{region}
+      ]]>
+	</select>
+	
+	<insert id="insertSchedule"  parameterType="activityVO, scheduleVO">
+		<![CDATA[
+		 insert into schedule(schedule_id,schedule_name, start_date, end_date, created_date, updated_date, group_id)
+		 values(#{id}, #{pwd}, #{name}, #{email})
+		]]>      
+	</insert>
+	
+
+   <insert id="insertActivity"  parameterType="activityVO, scheduleVO">
+		<![CDATA[
+		 insert into activity(id,pwd, name, email)
+		 values(#{id}, #{pwd}, #{name}, #{email})
+		]]>      
+	</insert>
+	
+  <!-- 
+   <update id="updateMember"  parameterType="memberVO">
+     <![CDATA[
+	     update t_member
+	     set pwd=#{pwd}, name=#{name}, email=#{email}
+	     where
+	     id=#{id}
+      ]]>      
+   </update> 
+     
+   <delete id="deleteMember"  parameterType="String">
+	<![CDATA[
+	   delete from  t_member
+	   where
+	   id=#{id}
+	]]>      
+  </delete>
+  <select id="loginById"  resultType="memberVO"   parameterType="memberVO" >
+	<![CDATA[
+		select * from t_member	
+		where id=#{id} and pwd=#{pwd}		
+	]]>
+  </select> -->
+</mapper>

@@ -1,0 +1,242 @@
+package com.plan_and_go.plan_and_go_Prj.mypage.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.plan_and_go.plan_and_go_Prj.member.vo.MemberVO;
+import com.plan_and_go.plan_and_go_Prj.mypage.service.MyPageService;
+import com.plan_and_go.plan_and_go_Prj.mypage.vo.MyPageVO;
+import com.plan_and_go.plan_and_go_Prj.place.vo.PlaceVO;
+
+@Controller("myPageController")
+public class MyPageControllerImpl implements MyPageController {
+
+    @Autowired
+    private MyPageService myPageService;
+
+    /**
+     * 기본 요청 처리 메서드
+     */
+    @Override
+    @RequestMapping(value = "/board/myPage.do", method = {RequestMethod.POST})
+    public ModelAndView showMyPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	request.setCharacterEncoding("utf-8");
+		response.setContentType("html/text;charset=utf-8");
+    	
+    	String viewName = (String) request.getAttribute("viewName");
+        String memberId = request.getParameter("MEMBER_ID");
+        System.out.println("memberID in controller : " + memberId);
+        MemberVO member = myPageService.getMemberDetails(memberId);
+        List<PlaceVO> visitedPlaces = myPageService.getVisitedPlaces(memberId);
+        List<MyPageVO> schedules = myPageService.getSchedulesByMemberId(memberId);
+        
+        System.out.println("visitedPlaces = " + visitedPlaces);
+        System.out.println("schedules = " + schedules);
+        System.out.println("member = " + member);	
+
+        ModelAndView mav = new ModelAndView(viewName);
+        mav.addObject("member", member);
+        mav.addObject("visitedPlaces", visitedPlaces);
+        mav.addObject("schedules", schedules);
+
+        return mav;
+    }
+
+    /**
+     * 프로필 수정 처리
+     */
+    @Override
+    @RequestMapping(value = "/board/updateProfile.do", method = RequestMethod.POST)
+    public ModelAndView updateProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String memberId = request.getParameter("MEMBER_ID");
+
+        MemberVO memberVO = new MemberVO();
+        memberVO.setMEMBER_ID(memberId);
+        myPageService.updateMemberDetails(memberVO);
+
+        return new ModelAndView("redirect:/board/myPage.do?memberId=" + memberId);
+    }
+
+    /*
+     * 일정 삭제 처리
+     */
+    @Override
+    @RequestMapping(value = "/board/deleteSchedule.do", method = RequestMethod.POST)
+    public ModelAndView deleteSchedule(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int scheduleId = Integer.parseInt(request.getParameter("scheduleId"));
+        String memberId = request.getParameter("MEMBER_ID");
+
+        myPageService.deleteSchedule(scheduleId);
+
+        ModelAndView mav = new ModelAndView("redirectPostToMyPage"); // redirectPostToMyPage.jsp
+        mav.addObject("MEMBER_ID", memberId);
+        return mav;
+    }
+    
+    @RequestMapping(value = "/board/shareSchedule.do", method = RequestMethod.POST)
+    public String  shareSchedule(HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
+        int GROUP_ID = Integer.parseInt(request.getParameter("GROUP_ID"));
+        String MEMBER_ID = request.getParameter("MEMBER_ID");
+        String NICKNAME = request.getParameter("NICKNAME");
+        
+        MyPageVO myPageVO = new MyPageVO();
+        
+        myPageVO.setGROUP_ID(GROUP_ID);
+        myPageVO.setNICKNAME(NICKNAME);
+        
+        String result = myPageService.shareSchedule(myPageVO);
+        
+        if (result.equals("success")) {
+            redirectAttributes.addFlashAttribute("message", NICKNAME + "님에게 일정 공유 성공!");
+        } else if(result.equals("Duplicate")){
+            redirectAttributes.addFlashAttribute("message", "이미 공유한 회원입니다. 닉네임을 확인하세요!");
+        } else {
+        	redirectAttributes.addFlashAttribute("message", "일정 공유 실패! 닉네임을 확인하세요!");
+        }
+        
+        return "redirect:/board/myPage.do?MEMBER_ID=" + MEMBER_ID;
+
+    }
+
+    // 🔹 비밀번호 변경 페이지로 이동
+    @Override
+    @RequestMapping(value = "/board/updatePassword.do", method = RequestMethod.POST)
+    public ModelAndView showPasswordUpdatePage(HttpServletRequest request, HttpServletResponse response) {
+        String memberId = request.getParameter("memberId");
+
+        if (memberId == null || memberId.isEmpty()) {
+            throw new IllegalArgumentException("회원 ID가 없습니다.");
+        }
+
+        ModelAndView mav = new ModelAndView("board/passwordUpdate");
+        mav.addObject("memberId", memberId);
+        return mav;
+    }
+    
+ // 🔹 비밀번호 변경 요청 처리
+    @Override
+    @RequestMapping(value = "/board/updatePasswordDone.do", method = RequestMethod.POST)
+    public ModelAndView updatePassword(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String memberId = request.getParameter("memberId");
+        String currentPassword = request.getParameter("currentPassword");
+        String newPassword = request.getParameter("newPassword");
+        String confirmPassword = request.getParameter("confirmPassword");
+
+        // 필수값 체크 및 비밀번호 확인
+        if (memberId == null || currentPassword == null || newPassword == null || confirmPassword == null) {
+            return new ModelAndView("redirect:/board/passwordUpdate.do?error=empty");
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            return new ModelAndView("redirect:/board/passwordUpdate.do?error=mismatch");
+        }
+
+        // 기존 비밀번호 확인
+        MemberVO member = myPageService.getMemberById(memberId);
+        if (member == null || !currentPassword.equals(member.getPASSWORD())) {
+            return new ModelAndView("redirect:/board/passwordUpdate.do?error=wrongPassword");
+        }
+
+        // 비밀번호 업데이트
+        myPageService.updatePassword(memberId, newPassword);
+
+        // 마이페이지로 이동
+        return new ModelAndView("redirect:/board/myPage.do?success=passwordUpdated");
+    }
+
+    
+    @Override
+    @RequestMapping(value = "/board/updateNickname.do", method = RequestMethod.POST)
+    public ModelAndView showNicknameUpdatePage(HttpServletRequest request, HttpServletResponse response) {
+        String memberId = request.getParameter("memberId");
+
+        if (memberId == null || memberId.isEmpty()) {
+            throw new IllegalArgumentException("회원 ID가 없습니다.");
+        }
+
+        ModelAndView mav = new ModelAndView("board/updateNickname");
+        mav.addObject("memberId", memberId);
+        return mav;
+    }
+
+    @Override
+    @RequestMapping(value = "/board/updateNicknameDone.do", method = RequestMethod.POST)
+    public ModelAndView updateNickname(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String memberId = request.getParameter("memberId");
+        String newNickname = request.getParameter("newNickname");
+
+        if (memberId == null || newNickname == null) {
+            return new ModelAndView("redirect:/board/updateNickname.do?error=empty");
+        }
+
+        myPageService.updateNickname(memberId, newNickname);
+        return new ModelAndView("redirect:/board/myPage.do?MEMBER_ID=" + memberId + "&success=emailUpdated");
+    }
+
+    // 이메일 변경
+    @Override
+    @RequestMapping(value = "/board/updateEmail.do", method = RequestMethod.POST)
+    public ModelAndView showEmailUpdatePage(HttpServletRequest request, HttpServletResponse response) {
+        String memberId = request.getParameter("memberId");
+
+        ModelAndView mav = new ModelAndView("board/updateEmail");
+        mav.addObject("memberId", memberId);
+        return mav;
+    }
+
+    @Override
+    @RequestMapping(value = "/board/updateEmailDone.do", method = RequestMethod.POST)
+    public ModelAndView updateEmail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String memberId = request.getParameter("memberId");
+        String newEmail = request.getParameter("newEmail");
+
+        if (memberId == null || newEmail == null) {
+            return new ModelAndView("redirect:/board/updateEmail.do?error=empty");
+        }
+
+        myPageService.updateEmail(memberId, newEmail);
+        return new ModelAndView("redirect:/board/myPage.do?MEMBER_ID=" + memberId + "&success=emailUpdated");
+    }
+
+
+
+
+
+
+    // 휴대전화번호 변경
+    @Override
+    @RequestMapping(value = "/board/updatePhoneNumber.do", method = RequestMethod.POST)
+    public ModelAndView showPhoneNumberUpdatePage(HttpServletRequest request, HttpServletResponse response) {
+        String memberId = request.getParameter("memberId");
+
+        ModelAndView mav = new ModelAndView("board/updatePhoneNumber");
+        mav.addObject("memberId", memberId);
+        return mav;
+    }
+
+    @Override
+    @RequestMapping(value = "/board/updatePhoneNumberDone.do", method = RequestMethod.POST)
+    public ModelAndView updatePhoneNumber(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String memberId = request.getParameter("memberId");
+        String newPhoneNumber = request.getParameter("newPhoneNumber");
+
+        if (memberId == null || newPhoneNumber == null) {
+            return new ModelAndView("redirect:/board/updatePhoneNumber.do?error=empty");
+        }
+
+        myPageService.updatePhoneNumber(memberId, newPhoneNumber);
+        return new ModelAndView("redirect:/board/myPage.do?MEMBER_ID=" + memberId + "&success=phoneNumberUpdated");
+    }
+
+
+
+}

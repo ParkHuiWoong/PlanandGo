@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.group">
+	<resultMap id="groupTBResult" type="groupTBVO">
+		<result property="group_id" column="group_id" />
+		<result property="group_name" column="group_name" />
+	</resultMap>
+	<resultMap id="groupJoinResult" type="groupJoinVO">
+		<result property="MEMBER_ID" column="member_id" />
+		<result property="group_id" column="group_id" />
+	</resultMap>
+
+	<insert id="insertGroup" parameterType="groupTBVO">
+		<![CDATA[
+		 INSERT INTO GROUP_TB(GROUP_NAME)
+		 VALUES(#{group_name})
+		]]>
+	</insert>
+
+	<select id="selectGroup" resultType="Integer"
+		parameterType="String">
+	<![CDATA[
+		SELECT MAX(GROUP_ID) FROM GROUP_TB WHERE GROUP_NAME = #{group_name};	
+	]]>
+	</select>
+
+	<insert id="insertGroupJoin" parameterType="groupJoinVO">
+		<![CDATA[
+		 INSERT INTO GROUP_JOIN(GROUP_ID, MEMBER_ID)
+		 VALUES(#{group_id}, #{MEMBER_ID})
+		]]>
+	</insert>
+</mapper>
